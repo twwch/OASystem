@@ -1,0 +1,12 @@
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 当我们写完一个接口对应的xml的时候 需要在主配置文件中 配置一下 整合Spring以后就不用写mapper了 -->
+    <!-- <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            设置数据库类型 oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库
+            <property name="dialect" value="oracle" />
+        </plugin>
+    </plugins> -->
+</configuration>

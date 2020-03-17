@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+    <!-- 数据库连接池 -->
+    <!-- 加载数据库连接配置文件 -->
+    <util:properties id="ds" location="classpath:jdbc.properties"/>
+
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="#{ds.driver}"/>
+        <property name="url" value="#{ds.url}"/>
+        <property name="username" value="#{ds.username}"/>
+        <property name="password" value="#{ds.password}"/>
+    </bean>
+
+    <!-- 配置sqlsessionFactory 需要引用连接池 -->
+    <bean id="sqlSessionFactory"
+          class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 属性configLocation 表示mybatis的核心配置文件的位置 -->
+        <property name="configLocation"
+                  value="classpath:spring-mybatis.xml" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations"
+                  value="classpath:mapper/*.xml" />
+
+    </bean>
+    <!-- 配置mapper扫描包，生成mapper代理对象 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 接口和xml所在位置 扫描到了会自动帮我们生成接口的代理对象 -->
+        <property name="basePackage" value="com.oa.mapper" />
+    </bean>
+    <!-- 业务层对象和dao层对象都是Spring来管理 -->
+    <context:component-scan base-package="com.oa.service"/>
+</beans>
