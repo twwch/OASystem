@@ -7,6 +7,12 @@ public class Employees {
 
     private String eId;
 
+    private String name;
+
+    private Integer age;
+
+    private String sex;
+
     private String ePassword;
 
     private String idCardNo;
@@ -49,6 +55,30 @@ public class Employees {
 
     public void seteId(String eId) {
         this.eId = eId == null ? null : eId.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
     }
 
     public String getePassword() {

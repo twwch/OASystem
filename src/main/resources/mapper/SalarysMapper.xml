@@ -1,37 +1,37 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.oa.mapper.SalarysMapper" >
-  <resultMap id="BaseResultMap" type="com.oa.bean.Salarys" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="e_id" property="eId" jdbcType="VARCHAR" />
-    <result column="serial_num" property="serialNum" jdbcType="VARCHAR" />
-    <result column="basic_wage" property="basicWage" jdbcType="VARCHAR" />
-    <result column="royalty" property="royalty" jdbcType="DOUBLE" />
-    <result column="work_days" property="workDays" jdbcType="INTEGER" />
-    <result column="leave_early_days" property="leaveEarlyDays" jdbcType="INTEGER" />
-    <result column="issue_time" property="issueTime" jdbcType="TIMESTAMP" />
-    <result column="account_other" property="accountOther" jdbcType="VARCHAR" />
-    <result column="salary" property="salary" jdbcType="DOUBLE" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oa.mapper.SalarysMapper">
+  <resultMap id="BaseResultMap" type="com.oa.bean.Salarys">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="e_id" jdbcType="VARCHAR" property="eId" />
+    <result column="serial_num" jdbcType="VARCHAR" property="serialNum" />
+    <result column="basic_wage" jdbcType="VARCHAR" property="basicWage" />
+    <result column="royalty" jdbcType="DOUBLE" property="royalty" />
+    <result column="work_days" jdbcType="INTEGER" property="workDays" />
+    <result column="leave_early_days" jdbcType="INTEGER" property="leaveEarlyDays" />
+    <result column="issue_time" jdbcType="TIMESTAMP" property="issueTime" />
+    <result column="account_other" jdbcType="VARCHAR" property="accountOther" />
+    <result column="salary" jdbcType="DOUBLE" property="salary" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -42,25 +42,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -71,41 +71,41 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, e_id, serial_num, basic_wage, royalty, work_days, leave_early_days, issue_time, 
     account_other, salary
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oa.bean.SalarysExample" >
+  <select id="selectByExample" parameterType="com.oa.bean.SalarysExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from salarys
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from salarys
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from salarys
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.oa.bean.SalarysExample" >
+  <delete id="deleteByExample" parameterType="com.oa.bean.SalarysExample">
     delete from salarys
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.oa.bean.Salarys" >
+  <insert id="insert" parameterType="com.oa.bean.Salarys">
     insert into salarys (id, e_id, serial_num, 
       basic_wage, royalty, work_days, 
       leave_early_days, issue_time, account_other, 
@@ -115,118 +115,118 @@
       #{leaveEarlyDays,jdbcType=INTEGER}, #{issueTime,jdbcType=TIMESTAMP}, #{accountOther,jdbcType=VARCHAR}, 
       #{salary,jdbcType=DOUBLE})
   </insert>
-  <insert id="insertSelective" parameterType="com.oa.bean.Salarys" >
+  <insert id="insertSelective" parameterType="com.oa.bean.Salarys">
     insert into salarys
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="eId != null" >
+      <if test="eId != null">
         e_id,
       </if>
-      <if test="serialNum != null" >
+      <if test="serialNum != null">
         serial_num,
       </if>
-      <if test="basicWage != null" >
+      <if test="basicWage != null">
         basic_wage,
       </if>
-      <if test="royalty != null" >
+      <if test="royalty != null">
         royalty,
       </if>
-      <if test="workDays != null" >
+      <if test="workDays != null">
         work_days,
       </if>
-      <if test="leaveEarlyDays != null" >
+      <if test="leaveEarlyDays != null">
         leave_early_days,
       </if>
-      <if test="issueTime != null" >
+      <if test="issueTime != null">
         issue_time,
       </if>
-      <if test="accountOther != null" >
+      <if test="accountOther != null">
         account_other,
       </if>
-      <if test="salary != null" >
+      <if test="salary != null">
         salary,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="eId != null" >
+      <if test="eId != null">
         #{eId,jdbcType=VARCHAR},
       </if>
-      <if test="serialNum != null" >
+      <if test="serialNum != null">
         #{serialNum,jdbcType=VARCHAR},
       </if>
-      <if test="basicWage != null" >
+      <if test="basicWage != null">
         #{basicWage,jdbcType=VARCHAR},
       </if>
-      <if test="royalty != null" >
+      <if test="royalty != null">
         #{royalty,jdbcType=DOUBLE},
       </if>
-      <if test="workDays != null" >
+      <if test="workDays != null">
         #{workDays,jdbcType=INTEGER},
       </if>
-      <if test="leaveEarlyDays != null" >
+      <if test="leaveEarlyDays != null">
         #{leaveEarlyDays,jdbcType=INTEGER},
       </if>
-      <if test="issueTime != null" >
+      <if test="issueTime != null">
         #{issueTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="accountOther != null" >
+      <if test="accountOther != null">
         #{accountOther,jdbcType=VARCHAR},
       </if>
-      <if test="salary != null" >
+      <if test="salary != null">
         #{salary,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.oa.bean.SalarysExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.oa.bean.SalarysExample" resultType="java.lang.Integer">
     select count(*) from salarys
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update salarys
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.eId != null" >
+      <if test="record.eId != null">
         e_id = #{record.eId,jdbcType=VARCHAR},
       </if>
-      <if test="record.serialNum != null" >
+      <if test="record.serialNum != null">
         serial_num = #{record.serialNum,jdbcType=VARCHAR},
       </if>
-      <if test="record.basicWage != null" >
+      <if test="record.basicWage != null">
         basic_wage = #{record.basicWage,jdbcType=VARCHAR},
       </if>
-      <if test="record.royalty != null" >
+      <if test="record.royalty != null">
         royalty = #{record.royalty,jdbcType=DOUBLE},
       </if>
-      <if test="record.workDays != null" >
+      <if test="record.workDays != null">
         work_days = #{record.workDays,jdbcType=INTEGER},
       </if>
-      <if test="record.leaveEarlyDays != null" >
+      <if test="record.leaveEarlyDays != null">
         leave_early_days = #{record.leaveEarlyDays,jdbcType=INTEGER},
       </if>
-      <if test="record.issueTime != null" >
+      <if test="record.issueTime != null">
         issue_time = #{record.issueTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.accountOther != null" >
+      <if test="record.accountOther != null">
         account_other = #{record.accountOther,jdbcType=VARCHAR},
       </if>
-      <if test="record.salary != null" >
+      <if test="record.salary != null">
         salary = #{record.salary,jdbcType=DOUBLE},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update salarys
     set id = #{record.id,jdbcType=INTEGER},
       e_id = #{record.eId,jdbcType=VARCHAR},
@@ -238,44 +238,331 @@
       issue_time = #{record.issueTime,jdbcType=TIMESTAMP},
       account_other = #{record.accountOther,jdbcType=VARCHAR},
       salary = #{record.salary,jdbcType=DOUBLE}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.oa.bean.Salarys" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.oa.bean.Salarys">
     update salarys
-    <set >
-      <if test="eId != null" >
+    <set>
+      <if test="eId != null">
         e_id = #{eId,jdbcType=VARCHAR},
       </if>
-      <if test="serialNum != null" >
+      <if test="serialNum != null">
         serial_num = #{serialNum,jdbcType=VARCHAR},
       </if>
-      <if test="basicWage != null" >
+      <if test="basicWage != null">
         basic_wage = #{basicWage,jdbcType=VARCHAR},
       </if>
-      <if test="royalty != null" >
+      <if test="royalty != null">
         royalty = #{royalty,jdbcType=DOUBLE},
       </if>
-      <if test="workDays != null" >
+      <if test="workDays != null">
         work_days = #{workDays,jdbcType=INTEGER},
       </if>
-      <if test="leaveEarlyDays != null" >
+      <if test="leaveEarlyDays != null">
         leave_early_days = #{leaveEarlyDays,jdbcType=INTEGER},
       </if>
-      <if test="issueTime != null" >
+      <if test="issueTime != null">
         issue_time = #{issueTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="accountOther != null" >
+      <if test="accountOther != null">
         account_other = #{accountOther,jdbcType=VARCHAR},
       </if>
-      <if test="salary != null" >
+      <if test="salary != null">
         salary = #{salary,jdbcType=DOUBLE},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.oa.bean.Salarys" >
+  <update id="updateByPrimaryKey" parameterType="com.oa.bean.Salarys">
+    update salarys
+    set e_id = #{eId,jdbcType=VARCHAR},
+      serial_num = #{serialNum,jdbcType=VARCHAR},
+      basic_wage = #{basicWage,jdbcType=VARCHAR},
+      royalty = #{royalty,jdbcType=DOUBLE},
+      work_days = #{workDays,jdbcType=INTEGER},
+      leave_early_days = #{leaveEarlyDays,jdbcType=INTEGER},
+      issue_time = #{issueTime,jdbcType=TIMESTAMP},
+      account_other = #{accountOther,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.oa.bean.Salarys">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="e_id" jdbcType="VARCHAR" property="eId" />
+    <result column="serial_num" jdbcType="VARCHAR" property="serialNum" />
+    <result column="basic_wage" jdbcType="VARCHAR" property="basicWage" />
+    <result column="royalty" jdbcType="DOUBLE" property="royalty" />
+    <result column="work_days" jdbcType="INTEGER" property="workDays" />
+    <result column="leave_early_days" jdbcType="INTEGER" property="leaveEarlyDays" />
+    <result column="issue_time" jdbcType="TIMESTAMP" property="issueTime" />
+    <result column="account_other" jdbcType="VARCHAR" property="accountOther" />
+    <result column="salary" jdbcType="DOUBLE" property="salary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, e_id, serial_num, basic_wage, royalty, work_days, leave_early_days, issue_time, 
+    account_other, salary
+  </sql>
+  <select id="selectByExample" parameterType="com.oa.bean.SalarysExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from salarys
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from salarys
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from salarys
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.oa.bean.SalarysExample">
+    delete from salarys
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.oa.bean.Salarys">
+    insert into salarys (id, e_id, serial_num, 
+      basic_wage, royalty, work_days, 
+      leave_early_days, issue_time, account_other, 
+      salary)
+    values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=VARCHAR}, #{serialNum,jdbcType=VARCHAR}, 
+      #{basicWage,jdbcType=VARCHAR}, #{royalty,jdbcType=DOUBLE}, #{workDays,jdbcType=INTEGER}, 
+      #{leaveEarlyDays,jdbcType=INTEGER}, #{issueTime,jdbcType=TIMESTAMP}, #{accountOther,jdbcType=VARCHAR}, 
+      #{salary,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oa.bean.Salarys">
+    insert into salarys
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="eId != null">
+        e_id,
+      </if>
+      <if test="serialNum != null">
+        serial_num,
+      </if>
+      <if test="basicWage != null">
+        basic_wage,
+      </if>
+      <if test="royalty != null">
+        royalty,
+      </if>
+      <if test="workDays != null">
+        work_days,
+      </if>
+      <if test="leaveEarlyDays != null">
+        leave_early_days,
+      </if>
+      <if test="issueTime != null">
+        issue_time,
+      </if>
+      <if test="accountOther != null">
+        account_other,
+      </if>
+      <if test="salary != null">
+        salary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eId != null">
+        #{eId,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNum != null">
+        #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="basicWage != null">
+        #{basicWage,jdbcType=VARCHAR},
+      </if>
+      <if test="royalty != null">
+        #{royalty,jdbcType=DOUBLE},
+      </if>
+      <if test="workDays != null">
+        #{workDays,jdbcType=INTEGER},
+      </if>
+      <if test="leaveEarlyDays != null">
+        #{leaveEarlyDays,jdbcType=INTEGER},
+      </if>
+      <if test="issueTime != null">
+        #{issueTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountOther != null">
+        #{accountOther,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null">
+        #{salary,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.oa.bean.SalarysExample" resultType="java.lang.Integer">
+    select count(*) from salarys
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update salarys
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.eId != null">
+        e_id = #{record.eId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serialNum != null">
+        serial_num = #{record.serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.basicWage != null">
+        basic_wage = #{record.basicWage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.royalty != null">
+        royalty = #{record.royalty,jdbcType=DOUBLE},
+      </if>
+      <if test="record.workDays != null">
+        work_days = #{record.workDays,jdbcType=INTEGER},
+      </if>
+      <if test="record.leaveEarlyDays != null">
+        leave_early_days = #{record.leaveEarlyDays,jdbcType=INTEGER},
+      </if>
+      <if test="record.issueTime != null">
+        issue_time = #{record.issueTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.accountOther != null">
+        account_other = #{record.accountOther,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salary != null">
+        salary = #{record.salary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update salarys
+    set id = #{record.id,jdbcType=INTEGER},
+      e_id = #{record.eId,jdbcType=VARCHAR},
+      serial_num = #{record.serialNum,jdbcType=VARCHAR},
+      basic_wage = #{record.basicWage,jdbcType=VARCHAR},
+      royalty = #{record.royalty,jdbcType=DOUBLE},
+      work_days = #{record.workDays,jdbcType=INTEGER},
+      leave_early_days = #{record.leaveEarlyDays,jdbcType=INTEGER},
+      issue_time = #{record.issueTime,jdbcType=TIMESTAMP},
+      account_other = #{record.accountOther,jdbcType=VARCHAR},
+      salary = #{record.salary,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oa.bean.Salarys">
+    update salarys
+    <set>
+      <if test="eId != null">
+        e_id = #{eId,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNum != null">
+        serial_num = #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="basicWage != null">
+        basic_wage = #{basicWage,jdbcType=VARCHAR},
+      </if>
+      <if test="royalty != null">
+        royalty = #{royalty,jdbcType=DOUBLE},
+      </if>
+      <if test="workDays != null">
+        work_days = #{workDays,jdbcType=INTEGER},
+      </if>
+      <if test="leaveEarlyDays != null">
+        leave_early_days = #{leaveEarlyDays,jdbcType=INTEGER},
+      </if>
+      <if test="issueTime != null">
+        issue_time = #{issueTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountOther != null">
+        account_other = #{accountOther,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null">
+        salary = #{salary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oa.bean.Salarys">
     update salarys
     set e_id = #{eId,jdbcType=VARCHAR},
       serial_num = #{serialNum,jdbcType=VARCHAR},
