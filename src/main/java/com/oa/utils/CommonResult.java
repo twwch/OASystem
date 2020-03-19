@@ -17,6 +17,11 @@ public class CommonResult<T> {
     private String message;
     private T data;
 
+    /**
+     * @author CHTW
+     * @param code
+     * @param message
+     */
     public CommonResult(Integer code,String message){
         this(code,message,null);
     }
