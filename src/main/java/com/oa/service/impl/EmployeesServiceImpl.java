@@ -1,5 +1,7 @@
 package com.oa.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.oa.bean.Employees;
 import com.oa.bean.EmployeesExample;
 import com.oa.enumutil.Result;
@@ -18,6 +20,8 @@ import java.util.List;
 @Service
 public class EmployeesServiceImpl implements EmployeesService {
 
+
+
     @Autowired
     private EmployeesMapper employeesMapper;
     /**
@@ -25,8 +29,15 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @author CHTW
      * @return
      */
-    public CommonResult<Integer> getCount() {
+    public List<Employees> getCount() {
         List<Employees> employeesList = employeesMapper.selectByExample(new EmployeesExample());
-        return new CommonResult<Integer>(Result.SUCCESS.getCode(),Result.SUCCESS.getMessage(),employeesList.size());
+        return employeesList;
+    }
+
+    public PageInfo<Employees> getPageAll(int page, int size) {
+        PageHelper.startPage(page, size);
+        List<Employees> aList = employeesMapper.selectByExample(new EmployeesExample());
+        PageInfo<Employees> apageInfo = new PageInfo<Employees>(aList);
+        return apageInfo;
     }
 }

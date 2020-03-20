@@ -1,6 +1,10 @@
 package com.oa.service;
 
+import com.github.pagehelper.PageInfo;
+import com.oa.bean.Employees;
 import com.oa.utils.CommonResult;
+
+import java.util.List;
 
 /**
  * @author CHTW
@@ -8,5 +12,7 @@ import com.oa.utils.CommonResult;
  */
 public interface EmployeesService {
 
-    public CommonResult<Integer> getCount();
+    public List<Employees> getCount();
+
+    public PageInfo<Employees> getPageAll(int page, int size);
 }
