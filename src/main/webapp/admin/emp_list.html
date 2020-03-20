@@ -33,6 +33,7 @@
         <th style="width: 20%" data-options="field:'email',align:'center'">邮箱</th>
         <th style="width: 8%" data-options="field:'lowSalary',align:'center'">基础薪资</th>
         <th style="width: 20%" data-options="field:'contractNum',align:'center'">合同编号</th>
+        <th style="width: 15%" data-options="field:'inTime',align:'center'">入职时间</th>
     </tr>
     </thead>
 </table>
@@ -49,16 +50,10 @@
         pager.pagination({
             buttons: [
                 {
-                    iconCls: 'icon-search',
-                    handler: function () {
-                        alert('search');
-                    }
-                },
-                {
                     iconCls: 'icon-add',
                     handler: function (event, data) {
                         //console.log(event + " " + data)
-                        location.href = "yonghu_add.html"
+                        //location.href = "yonghu_add.html"
                     }
                 },
                 {

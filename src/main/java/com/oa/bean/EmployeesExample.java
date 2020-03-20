@@ -1,6 +1,7 @@
 package com.oa.bean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EmployeesExample {
@@ -1121,6 +1122,66 @@ public class EmployeesExample {
 
         public Criteria andContractNumNotBetween(String value1, String value2) {
             addCriterion("contract_num not between", value1, value2, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeIsNull() {
+            addCriterion("in_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeIsNotNull() {
+            addCriterion("in_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeEqualTo(Date value) {
+            addCriterion("in_time =", value, "inTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeNotEqualTo(Date value) {
+            addCriterion("in_time <>", value, "inTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeGreaterThan(Date value) {
+            addCriterion("in_time >", value, "inTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("in_time >=", value, "inTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeLessThan(Date value) {
+            addCriterion("in_time <", value, "inTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeLessThanOrEqualTo(Date value) {
+            addCriterion("in_time <=", value, "inTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeIn(List<Date> values) {
+            addCriterion("in_time in", values, "inTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeNotIn(List<Date> values) {
+            addCriterion("in_time not in", values, "inTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeBetween(Date value1, Date value2) {
+            addCriterion("in_time between", value1, value2, "inTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInTimeNotBetween(Date value1, Date value2) {
+            addCriterion("in_time not between", value1, value2, "inTime");
             return (Criteria) this;
         }
 

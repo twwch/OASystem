@@ -1,5 +1,7 @@
 package com.oa.bean;
 
+import java.util.Date;
+
 public class Employees {
     private Integer id;
 
@@ -30,6 +32,8 @@ public class Employees {
     private Double lowSalary;
 
     private String contractNum;
+
+    private Date inTime;
 
     private Integer gradeId;
 
@@ -151,6 +155,14 @@ public class Employees {
 
     public void setContractNum(String contractNum) {
         this.contractNum = contractNum == null ? null : contractNum.trim();
+    }
+
+    public Date getInTime() {
+        return inTime;
+    }
+
+    public void setInTime(Date inTime) {
+        this.inTime = inTime;
     }
 
     public Integer getGradeId() {
