@@ -1,5 +1,6 @@
 package com.oa.service;
 
+import com.github.pagehelper.PageInfo;
 import com.oa.bean.EmpLost;
 
 /**
@@ -9,4 +10,6 @@ import com.oa.bean.EmpLost;
 public interface EmpLostService {
 
     int add(EmpLost empLost);
+
+    PageInfo<EmpLost> easyuiGetData(int nowpage, int size, String eId, String name);
 }

@@ -304,7 +304,7 @@
 
     function updateemp() {
         $.messager.confirm("操作提示", "您确定要修改该员工信息吗？", function (data) {
-            if(data) {
+            if (data) {
                 var emp = $('#edit').serialize()
                 console.log(emp)
                 $.ajax({
@@ -328,7 +328,7 @@
 
                     }
                 });
-            } else{
+            } else {
                 console.log("关闭")
             }
             /* $.get("/OASystem/empinfo/update", "emp=" + emp, function (data) {
@@ -347,7 +347,7 @@
         if (row != null) {
             var eId = row.eId;
             $.messager.confirm("操作提示", "您确定要删除该员工信息吗？", function (data) {
-                if(data) {
+                if (data) {
                     $.get("/OASystem/empinfo/dele", "eId=" + eId, function (data) {
                         if (data.code == 200) {
                             if (editIndex == undefined) {
@@ -360,7 +360,7 @@
                             $.messager.alert("操作提示", "操作失败！", "error");
                         }
                     })
-                }else {
+                } else {
                     console.log("关闭")
                 }
             })
@@ -370,20 +370,21 @@
         }
     }
 
-    function admin(){
+    function admin() {
         var row = $('#dg').datagrid('getSelected');
         if (row != null) {
-            var eId = row.eId;
+            var id = row.id;
+            //console.log(row)
             $.messager.confirm("操作提示", "您确定要将该员工设置为管理员吗？", function (data) {
-                if(data) {
-                    $.get("/OASystem/empinfo/admin", "eId=" + eId, function (data) {
+                if (data) {
+                    $.get("/OASystem/empinfo/admin", "id=" + row.id + "&gradeId=" + row.gradeId, function (data) {
                         if (data.code == 200) {
                             $.messager.alert("操作提示", "操作成功！", "success");
                         } else if (data.code == 500) {
                             $.messager.alert("操作提示", "该用户已是管理员！", "error");
                         }
                     })
-                }else {
+                } else {
                     console.log("关闭")
                 }
             })

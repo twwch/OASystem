@@ -132,12 +132,12 @@ public class EmployeesContrller {
 
     /**
      * 设置为管理员
-     * @param eId
+     * @param
      * @return
      */
     @RequestMapping(value = "/admin",method = RequestMethod.GET)
-    public CommonResult<Integer> admin(String eId){
-        int i = employeesService.admin(eId, EmpEnum.ISADMIN.getCode());
+    public CommonResult<Integer> admin(Integer id,Integer gradeId){
+        int i = employeesService.admin(id,gradeId);
         if (i > 0) {
             return new CommonResult<Integer>(Result.SUCCESS.getCode(), "修改成功", i);
         }
@@ -168,8 +168,9 @@ public class EmployeesContrller {
         return null;
     }
 
-    public CommonResult<Integer> removeAdmin(String eId){
-        int i = employeesService.admin(eId, EmpEnum.NOTADMIN.getCode());
+    @RequestMapping(value = "/removeAdmin", method = RequestMethod.GET)
+    public CommonResult<Integer> removeAdmin(Integer id){
+        int i = employeesService.removeAdmin(id, EmpEnum.NOTADMIN.getCode());
         if (i > 0) {
             return new CommonResult<Integer>(Result.SUCCESS.getCode(), "修改成功", i);
         }

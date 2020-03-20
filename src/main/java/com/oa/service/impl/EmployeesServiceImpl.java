@@ -145,24 +145,25 @@ public class EmployeesServiceImpl implements EmployeesService {
 
     /**
      * 设置管理员
-     * @param eId
+     *
      * @param gradeId
      * @return
      */
-    public int admin(String eId,Integer gradeId ) {
+    public int admin(Integer id, Integer gradeId) {
         EmployeesExample employeesExample = new EmployeesExample();
         EmployeesExample.Criteria criteria = employeesExample.createCriteria();
-        criteria.andEIdEqualTo(eId);
+        criteria.andIdEqualTo(id);
         criteria.andGradeIdEqualTo(gradeId);
-        if(employeesMapper.selectByExample(employeesExample).size() > 0){
-            return 0;
+        Employees employees1 = employeesMapper.selectByExample(employeesExample).get(0);
+        System.out.println(employees1);
+        if (employeesMapper.selectByExample(employeesExample).size() > 0) {
+            //criteria = employeesExample.createCriteria();
+            Employees employees = new Employees();
+            employees.setGradeId(EmpEnum.ISADMIN.getCode());
+            employees.setId(id);
+            return employeesMapper.updateByPrimaryKeySelective(employees);
         }
-        EmployeesExample employeesExample2 = new EmployeesExample();
-        EmployeesExample.Criteria criteria2 = employeesExample.createCriteria();
-        criteria.andEIdEqualTo(eId);
-        Employees employees = new Employees();
-        employees.setGradeId(gradeId);
-        return employeesMapper.updateByExampleSelective(employees,employeesExample2);
+        return 0;
     }
 
     public PageInfo<Employees> easyuiGetDataAdmin(int nowpage, int size, String eId, String name, String dept) {
@@ -185,14 +186,10 @@ public class EmployeesServiceImpl implements EmployeesService {
     }
 
 
-    public int removeAdmin(String eId, Integer gradeId) {
-        EmployeesExample employeesExample = new EmployeesExample();
-        EmployeesExample.Criteria criteria = employeesExample.createCriteria();
-        criteria.andEIdEqualTo(eId);
-        EmployeesExample employeesExample2 = new EmployeesExample();
-        EmployeesExample.Criteria criteria2 = employeesExample.createCriteria();
+    public int removeAdmin(Integer id, Integer gradeId) {
         Employees employees = new Employees();
+        employees.setId(id);
         employees.setGradeId(gradeId);
-        return employeesMapper.updateByExampleSelective(employees,employeesExample2);
+        return employeesMapper.updateByPrimaryKeySelective(employees);
     }
 }

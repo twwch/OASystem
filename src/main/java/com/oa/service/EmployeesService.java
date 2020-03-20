@@ -24,9 +24,9 @@ public interface EmployeesService {
 
     int updateEmp(ResultEmp resultEmp);
 
-    int admin(String eId,Integer gradeId);
+    int admin(Integer id,Integer gradeId);
 
     PageInfo<Employees> easyuiGetDataAdmin(int nowpage, int size, String eId, String name, String dept);
 
-    int removeAdmin(String eId,Integer gradeId);
+    int removeAdmin(Integer id,Integer gradeId);
 }
