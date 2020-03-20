@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.oa.bean.Attendance" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="e_id" property="eId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="take_time" property="takeTime" jdbcType="TIMESTAMP" />
-    <result column="take_address" property="takeAddress" jdbcType="VARCHAR" />
     <result column="take_state" property="takeState" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, e_id, take_time, take_address, take_state
+    id, e_id, name, take_time, take_state
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oa.bean.AttendanceExample" >
     select
@@ -100,10 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.oa.bean.Attendance" >
-    insert into attendance (id, e_id, take_time, 
-      take_address, take_state)
-    values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=VARCHAR}, #{takeTime,jdbcType=TIMESTAMP}, 
-      #{takeAddress,jdbcType=VARCHAR}, #{takeState,jdbcType=INTEGER})
+    insert into attendance (id, e_id, name, 
+      take_time, take_state)
+    values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{takeTime,jdbcType=TIMESTAMP}, #{takeState,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.Attendance" >
     insert into attendance
@@ -114,11 +114,11 @@
       <if test="eId != null" >
         e_id,
       </if>
+      <if test="name != null" >
+        name,
+      </if>
       <if test="takeTime != null" >
         take_time,
-      </if>
-      <if test="takeAddress != null" >
-        take_address,
       </if>
       <if test="takeState != null" >
         take_state,
@@ -131,11 +131,11 @@
       <if test="eId != null" >
         #{eId,jdbcType=VARCHAR},
       </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
       <if test="takeTime != null" >
         #{takeTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="takeAddress != null" >
-        #{takeAddress,jdbcType=VARCHAR},
       </if>
       <if test="takeState != null" >
         #{takeState,jdbcType=INTEGER},
@@ -157,11 +157,11 @@
       <if test="record.eId != null" >
         e_id = #{record.eId,jdbcType=VARCHAR},
       </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
       <if test="record.takeTime != null" >
         take_time = #{record.takeTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.takeAddress != null" >
-        take_address = #{record.takeAddress,jdbcType=VARCHAR},
       </if>
       <if test="record.takeState != null" >
         take_state = #{record.takeState,jdbcType=INTEGER},
@@ -175,8 +175,8 @@
     update attendance
     set id = #{record.id,jdbcType=INTEGER},
       e_id = #{record.eId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       take_time = #{record.takeTime,jdbcType=TIMESTAMP},
-      take_address = #{record.takeAddress,jdbcType=VARCHAR},
       take_state = #{record.takeState,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -188,11 +188,11 @@
       <if test="eId != null" >
         e_id = #{eId,jdbcType=VARCHAR},
       </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="takeTime != null" >
         take_time = #{takeTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="takeAddress != null" >
-        take_address = #{takeAddress,jdbcType=VARCHAR},
       </if>
       <if test="takeState != null" >
         take_state = #{takeState,jdbcType=INTEGER},
@@ -203,8 +203,8 @@
   <update id="updateByPrimaryKey" parameterType="com.oa.bean.Attendance" >
     update attendance
     set e_id = #{eId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       take_time = #{takeTime,jdbcType=TIMESTAMP},
-      take_address = #{takeAddress,jdbcType=VARCHAR},
       take_state = #{takeState,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

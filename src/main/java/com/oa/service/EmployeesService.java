@@ -14,5 +14,6 @@ public interface EmployeesService {
 
     public List<Employees> getCount();
 
-    public PageInfo<Employees> getPageAll(int page, int size);
+
+    public PageInfo<Employees> easyuiGetData(int nowpage, int size, String eId, String name, String dept);
 }

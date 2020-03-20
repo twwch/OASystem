@@ -10,6 +10,7 @@ import com.oa.service.EmployeesService;
 import com.oa.utils.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -34,10 +35,21 @@ public class EmployeesServiceImpl implements EmployeesService {
         return employeesList;
     }
 
-    public PageInfo<Employees> getPageAll(int page, int size) {
-        PageHelper.startPage(page, size);
-        List<Employees> aList = employeesMapper.selectByExample(new EmployeesExample());
-        PageInfo<Employees> apageInfo = new PageInfo<Employees>(aList);
-        return apageInfo;
+    public PageInfo<Employees> easyuiGetData(int nowpage, int size,String eId,String name,String dept) {
+        PageHelper.startPage(nowpage, size);
+        EmployeesExample example = new EmployeesExample();
+        EmployeesExample.Criteria ctr = example.createCriteria();
+        if(!StringUtils.isEmpty(eId)) {
+            ctr.andEIdEqualTo(eId);
+        }
+        if(!StringUtils.isEmpty(name)) {
+            ctr.andNameEqualTo(name);
+        }
+        if(!StringUtils.isEmpty(dept)) {
+            ctr.andDeptEqualTo(dept);
+        }
+        List<Employees> lists = employeesMapper.selectByExample(example);
+        PageInfo<Employees> info = new PageInfo<Employees>(lists);
+        return info;
     }
 }

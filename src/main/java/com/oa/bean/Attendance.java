@@ -7,9 +7,9 @@ public class Attendance {
 
     private String eId;
 
-    private Date takeTime;
+    private String name;
 
-    private String takeAddress;
+    private Date takeTime;
 
     private Integer takeState;
 
@@ -29,20 +29,20 @@ public class Attendance {
         this.eId = eId == null ? null : eId.trim();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
     public Date getTakeTime() {
         return takeTime;
     }
 
     public void setTakeTime(Date takeTime) {
         this.takeTime = takeTime;
-    }
-
-    public String getTakeAddress() {
-        return takeAddress;
-    }
-
-    public void setTakeAddress(String takeAddress) {
-        this.takeAddress = takeAddress == null ? null : takeAddress.trim();
     }
 
     public Integer getTakeState() {

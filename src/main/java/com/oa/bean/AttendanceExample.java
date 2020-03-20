@@ -235,6 +235,76 @@ public class AttendanceExample {
             return (Criteria) this;
         }
 
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
         public Criteria andTakeTimeIsNull() {
             addCriterion("take_time is null");
             return (Criteria) this;
@@ -292,76 +362,6 @@ public class AttendanceExample {
 
         public Criteria andTakeTimeNotBetween(Date value1, Date value2) {
             addCriterion("take_time not between", value1, value2, "takeTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressIsNull() {
-            addCriterion("take_address is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressIsNotNull() {
-            addCriterion("take_address is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressEqualTo(String value) {
-            addCriterion("take_address =", value, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressNotEqualTo(String value) {
-            addCriterion("take_address <>", value, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressGreaterThan(String value) {
-            addCriterion("take_address >", value, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressGreaterThanOrEqualTo(String value) {
-            addCriterion("take_address >=", value, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressLessThan(String value) {
-            addCriterion("take_address <", value, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressLessThanOrEqualTo(String value) {
-            addCriterion("take_address <=", value, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressLike(String value) {
-            addCriterion("take_address like", value, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressNotLike(String value) {
-            addCriterion("take_address not like", value, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressIn(List<String> values) {
-            addCriterion("take_address in", values, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressNotIn(List<String> values) {
-            addCriterion("take_address not in", values, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressBetween(String value1, String value2) {
-            addCriterion("take_address between", value1, value2, "takeAddress");
-            return (Criteria) this;
-        }
-
-        public Criteria andTakeAddressNotBetween(String value1, String value2) {
-            addCriterion("take_address not between", value1, value2, "takeAddress");
             return (Criteria) this;
         }
 

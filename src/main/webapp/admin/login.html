@@ -9,10 +9,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <title>登录</title>
-    <link rel="stylesheet" href="/OASystem/common/layui/css/layui.css">
-    <link rel="stylesheet" href="/OASystem/common/css/sccl.css">
-    <link rel="stylesheet" href="/OASystem/common/iconfont/1.0.1/iconfont.css"/>
-    <link rel="shortcut icon" href="/OASystem/favicon.ico"/>
+    <link rel="stylesheet" href="common/layui/css/layui.css">
+    <link rel="stylesheet" href="common/css/sccl.css">
+    <link rel="stylesheet" href="common/iconfont/1.0.1/iconfont.css"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
 </head>
 
 <body class="login-bg">
@@ -65,11 +65,11 @@
         <!--<img id="valiCode" src="http://192.168.1.115:8080/health/image.jsp" alt="验证码" />-->
     </div>
 </script>
-<script type="text/javascript" src="/OASystem/common/lib/jquery-1.9.0.min.js"></script>
-<script type="text/javascript" src="/OASystem/common/js/jquery.xdomainrequest.min.js"></script>
-<script src="/OASystem/common/layui/layui.js"></script>
-<script src="/OASystem/common/js/md5.js"></script>
-<script src="/OASystem/common/js/sccl-util.js"></script>
+<script type="text/javascript" src="common/lib/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="common/js/jquery.xdomainrequest.min.js"></script>
+<script src="common/layui/layui.js"></script>
+<script src="common/js/md5.js"></script>
+<script src="common/js/sccl-util.js"></script>
 
 <script>
     $(function () {
@@ -104,7 +104,7 @@
                 //window.location.href = "index.html";
                 if (errorCount > 5) {
                     layer.open({
-                        title: '<img src="../common/layui/images/face/0.gif" alt="[害羞]">输入验证码',
+                        title: '<img src="common/layui/images/face/0.gif" alt="[害羞]">输入验证码',
                         type: 1,
                         content: document.getElementById('code-temp').innerHTML,
                         btn: ['确定'],
@@ -143,9 +143,9 @@
         });
 
         function submit($, params) {
-            alert(111)
+            // alert(111)
             window.location.href = "index.html";
-            var url = myurl() + "/admin/innerUser/login" + "?" + new Date().getTime();
+
             /*ajax(url,params,"json",function(data){
                 console.log(data);
                 if(data.code==1){

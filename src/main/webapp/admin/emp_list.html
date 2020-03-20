@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>权限</title>
+    <link rel="stylesheet" type="text/css"
+          href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css"
+          href="easyui/demo/demo.css">
+    <script type="text/javascript"
+            src="common/lib/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript"
+			src="easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="easyui/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+<div style="margin: 20px 0;"></div>
+<table id="dg" title="用 户 管 理" style="width: 100%;"
+       data-options="singleSelect:true,pagination:true,url:'/OASystem/empinfo/easyuiGetData',method:'get',toolbar:'#tb'">
+    <thead>
+    <tr>
+        <th style="width: 10%" data-options="field:'eId',align:'center'">工 号</th>
+        <th style="width: 10%" data-options="field:'name',align:'center'">姓名</th>
+        <th style="width: 8%" data-options="field:'dept',align:'center'">部门</th>
+        <th style="width: 15%" data-options="field:'phoneNum',width:100,align:'center'">电话</th>
+        <th style="width: 20%" data-options="field:'idCardNo',align:'center'">身份证号</th>
+        <th style="width: 20%" data-options="field:'bankAccount',align:'center'">银行账户</th>
+        <th style="width: 20%" data-options="field:'email',align:'center'">邮箱</th>
+        <th style="width: 8%" data-options="field:'lowSalary',align:'center'">基础薪资</th>
+        <th style="width: 20%" data-options="field:'contractNum',align:'center'">合同编号</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb" style="font-size: 17px;height: 35px;padding-top: 9px;">
+    &emsp;姓名&emsp;<input style="font-size: 15px;" type="text" name="standard.name" id="emp_name"/>&emsp;&emsp;
+    工号&emsp;<input style="font-size: 15px" type="text" name="standard.minWeight" id="emp_eId"/>&emsp;&emsp;
+    部门&emsp;<input style="font-size: 15px" type="text" name="standard.minWeight" id="emp_dept"/>&emsp;&emsp;
+    <a id="standardQueryBtn" href="javascript:void(0)"
+       class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of datagrid
+        pager.pagination({
+            buttons: [
+                {
+                    iconCls: 'icon-search',
+                    handler: function () {
+                        alert('search');
+                    }
+                },
+                {
+                    iconCls: 'icon-add',
+                    handler: function (event, data) {
+                        //console.log(event + " " + data)
+                        location.href = "yonghu_add.html"
+                    }
+                },
+                {
+                    iconCls: 'icon-edit',
+                    handler: function () {
+                        var row = $('#dg').datagrid('getSelected');
+                        if (row) {
+                            $.messager.alert('Info', row.itemid + ":"
+                                + row.productid + ":" + row.attr1);
+                        }
+                    }
+                }]
+        });
+    })
+
+    function getSelected() {
+        var row = $('#dg').datagrid('getSelected');
+        if (row) {
+            $.messager.alert('Info', row.itemid + ":" + row.productid + ":"
+                + row.attr1);
+        }
+    }
+
+    $("#standardQueryBtn").click(function () {
+        //$("#dg") 获取easui的数据表格   datagrid("load" 重新加载表格 后面的几个数据是请求的参数
+        $("#dg").datagrid("load", {
+            "name": $("#emp_name").val(),
+            "eId": $("#emp_eId").val(),
+            "dept": $("#emp_dept").val()
+        });
+
+    });
+</script>
+</body>
+
+</html>
