@@ -1,0 +1,137 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bitter Mobile Template</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
+    <meta name="description" content="Bitter Mobile Template">
+    <meta name="keywords" content="bootstrap, mobile template, cordova, phonegap, mobile, html, responsive" />
+    <script src="assets/js/lib/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Page loading -->
+    <div class="loading">
+        <div class="spinner-grow"></div>
+    </div>
+    <!-- * Page loading -->
+
+    <!-- App Header -->
+    <div class="appHeader">
+        <div class="left">
+            <a href="javascript:;" class="icon goBack">
+                <i class="icon ion-ios-arrow-back"></i>
+            </a>
+        </div>
+        <div class="pageTitle">登录</div>
+    </div>
+    <!-- searchBox -->
+    <div class="searchBox">
+        <form>
+            <span class="inputIcon">
+                <i class="icon ion-ios-search"></i>
+            </span>
+            <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+            <a href="javascript:;" class="toggleSearchbox closeButton">
+                <i class="icon ion-ios-close-circle"></i>
+            </a>
+        </form>
+    </div>
+    <!-- * searchBox -->
+    <!-- * App Header -->
+
+    <!-- App Capsule -->
+    <div id="appCapsule">
+
+        <div class="appContent">
+
+
+            <div class="sectionTitle text-center mt-3">
+                <div class="title">
+                    <h1>XX员工系统</h1>
+                </div>
+                <div class="lead mb-2">请登录</div>
+            </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="工号" id="eId">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="密码" id="password">
+                </div>
+                <div class="form-group row mt-3 mb-3">
+                    <div class="col-6">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="remember" />
+                            <label class="custom-control-label text-muted" for="remember">Remember me</label>
+                        </div>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a href="page-forgot-password.html" class="text-muted">Forgot password?</a>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" id="sub">
+                        登录
+                    </button>
+                </div>
+
+            <div class="divider mt-3 mb-3"></div>
+        </div>
+
+
+    </div>
+
+    <script type="text/javascript">
+
+        $("#sub").click(function () {
+
+
+
+            var eid = $("#eId").val();
+            var password = $("#password").val();
+            console.log(eid);
+            console.log(password);
+
+            $.ajax({
+                url: "/OASystem/empinfo/login",
+                dataType: "json",
+                type: "POST",
+                data: {"eId":eid,"password":password},
+                success: function (data) {
+                    if (data["code"] == 404){
+                        alert(date["message"]);
+                    }else {
+                        window.location.href = "./attendance.html"
+                    }
+                },
+                error: function () {
+                    alert("打开失败，请连接公司网络打卡")
+                    window.location.reload();
+                }
+            });
+        });
+
+
+
+    </script>
+
+    <!-- ///////////// Js Files ////////////////////  -->
+    <!-- Jquery -->
+
+    <!-- Bootstrap-->
+    <script src="assets/js/lib/popper.min.js"></script>
+    <script src="assets/js/lib/bootstrap.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="assets/js/plugins/owl.carousel.min.js"></script>
+    <!-- Main Js File -->
+    <script src="assets/js/app.js"></script>
+
+
+</body>
+
+</html>
