@@ -461,7 +461,7 @@ $(function () {
                 "childMenus": [
                     {
                         "id": "14",
-                        "name": "以打卡",
+                        "name": "已打卡",
                         "parentId": "8",
                         "url": "yi_daka.html",
                         "icon": "",
@@ -481,7 +481,7 @@ $(function () {
                     },
                     {
                         "id": "16",
-                        "name": "已请假",
+                        "name": "请假审核",
                         "parentId": "8",
                         "url": "yi_qinjia.html",
                         "icon": "",
@@ -491,6 +491,16 @@ $(function () {
                     },
                     {
                         "id": "17",
+                        "name": "已请假",
+                        "parentId": "8",
+                        "url": "yi_qinjia.html",
+                        "icon": "",
+                        "order": "1",
+                        "isHeader": "0",
+                        "childMenus": ""
+                    },
+                    {
+                        "id": "18",
                         "name": "已销假",
                         "parentId": "8",
                         "url": "yi_xiaojia.html",

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>权限</title>
+    <title>用户管理</title>
     <link rel="stylesheet" type="text/css"
           href="easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css"
@@ -12,8 +12,8 @@
           href="easyui/demo/demo.css">
     <script type="text/javascript"
             src="common/lib/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript"
-			src="easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="easyui/jquery.min.js"></script>
     <script type="text/javascript"
             src="easyui/jquery.easyui.min.js"></script>
 </head>
@@ -21,7 +21,8 @@
 <body>
 <div style="margin: 20px 0;"></div>
 <table id="dg" title="用 户 管 理" style="width: 100%;"
-       data-options="singleSelect:true,pagination:true,url:'/OASystem/empinfo/easyuiGetData',method:'get',toolbar:'#tb'">
+       data-options="rownumbers:true,singleSelect:true,pagination:true,
+				onClickRow: onClickRow,url:'/OASystem/empinfo/easyuiGetData',method:'get',toolbar:'#tb'">
     <thead>
     <tr>
         <th style="width: 10%" data-options="field:'eId',align:'center'">工 号</th>
@@ -33,47 +34,361 @@
         <th style="width: 20%" data-options="field:'email',align:'center'">邮箱</th>
         <th style="width: 8%" data-options="field:'lowSalary',align:'center'">基础薪资</th>
         <th style="width: 20%" data-options="field:'contractNum',align:'center'">合同编号</th>
-        <th style="width: 15%" data-options="field:'inTime',align:'center'">入职时间</th>
+        <th style="width: 15%" data-options="field:'inWithTime',align:'center'">入职时间</th>
     </tr>
     </thead>
 </table>
-<div id="tb" style="font-size: 17px;height: 35px;padding-top: 9px;">
-    &emsp;姓名&emsp;<input style="font-size: 15px;" type="text" name="standard.name" id="emp_name"/>&emsp;&emsp;
-    工号&emsp;<input style="font-size: 15px" type="text" name="standard.minWeight" id="emp_eId"/>&emsp;&emsp;
-    部门&emsp;<input style="font-size: 15px" type="text" name="standard.minWeight" id="emp_dept"/>&emsp;&emsp;
-    <a id="standardQueryBtn" href="javascript:void(0)"
-       class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+<div id="tb" style="font-size: 17px;height: 70px;padding-top: 9px;">
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"
+       onclick="append()">Append</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true"
+       onclick="removeit()">Remove</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true"
+       onclick="editemp()">Edit</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-man',plain:true"
+       onclick="admin()">Admin</a>
+    <br>
+    <div style="margin-top: 10px">
+        &emsp;姓名&emsp;<input style="font-size: 15px;" type="text" name="standard.name" id="emp_name"/>&emsp;&emsp;
+        工号&emsp;<input style="font-size: 15px" type="text" name="standard.minWeight" id="emp_eId"/>&emsp;&emsp;
+        部门&emsp;<input style="font-size: 15px" type="text" name="standard.minWeight" id="emp_dept"/>&emsp;&emsp;
+        <a id="standardQueryBtn" href="javascript:void(0)"
+           class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+    </div>
+</div>
+
+
+<div id="w" class="easyui-window" title="编辑数据" data-options="iconCls:'icon-save'"
+     style="width:700px;height:360px;padding:5px">
+    <div class="easyui-layout" data-options="fit:true">
+        <div id="message" data-options="region:'center'" style="padding:10px;font-size: 16px;">
+            <form id="add">
+                <label class="add-e">工&emsp;&emsp;号 : </label><input name="eId" class="easyui-textbox"
+                                                                     data-options="prompt:'Enter eId'"
+                                                                     style="width:30%;height:32px">
+                <label class="add-e">姓&emsp;&emsp;名 : </label><input name="name" class="easyui-textbox"
+                                                                     data-options="prompt:'Enter name'"
+                                                                     style="width:30%;height:32px">
+                <br>
+                <div style="margin-top: 10px;"></div>
+                <label class="add-e">部&emsp;&emsp;门 : </label><input name="dept" class="easyui-textbox"
+                                                                     data-options="prompt:'Enter dept'"
+                                                                     style="width:30%;height:32px">
+                <label class="add-e">电&emsp;&emsp;话 : </label><input name="phoneNum" class="easyui-textbox"
+                                                                     data-options="prompt:'Enter phoneNum'"
+                                                                     style="width:30%;height:32px"><br>
+                <br>
+                <label class="add-e">职&emsp;&emsp;位 : </label><input name="position" class="easyui-textbox"
+                                                                     data-options="prompt:'Enter position'"
+                                                                     style="width:30%;height:32px">
+                <label class="add-e">上岗时间 : </label><input name="inWithTime" class="easyui-textbox"
+                                                           data-options="prompt:'Enter inTime'"
+                                                           style="width:30%;height:32px"><br>
+                <br>
+                <div style="margin-top: 10px;"></div>
+                <label class="add-e">身份证号 : </label><input name="idCardNo" class="easyui-textbox"
+                                                           data-options="prompt:'Enter idCardNo'"
+                                                           style="width:30%;height:32px">
+                <label class="add-e">银行账户 : </label><input name="bankAccount" class="easyui-textbox"
+                                                           data-options="prompt:'Enter bankAccount'"
+                                                           style="width:30%;height:32px">
+                <br>
+                <div style="margin-top: 10px;"></div>
+                <label class="add-e">邮箱地址 : </label><input name="email" class="easyui-textbox"
+                                                           data-options="prompt:'Enter email'"
+                                                           style="width:30%;height:32px">
+                <label class="add-e">基础薪资 : </label><input name="lowSalary" class="easyui-textbox"
+                                                           data-options="prompt:'Enter lowSalary'"
+                                                           style="width:30%;height:32px">
+            </form>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+            <!--            //<div id="dlg-buttons">-->
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'"
+               onclick="javascript:add()">Save</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
+               onclick="javascript:$('#w').dialog('close')">Close</a>
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
+
+<div id="w1" class="easyui-window" title="编辑数据" data-options="iconCls:'icon-save'"
+     style="width:700px;height:360px;padding:5px">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="padding:10px;font-size: 16px;">
+            <form id="edit">
+                <label class="add-e">工&emsp;&emsp;号 : </label><input id="eId" name="eId" class="easyui-textbox"
+                                                                     data-options="prompt:'Enter eId'"
+                                                                     style="width:30%;height:32px">
+                <label class="add-e">姓&emsp;&emsp;名 : </label><input id="name" name="name" class="easyui-textbox"
+                                                                     data-options="prompt:'Enter name'"
+                                                                     style="width:30%;height:32px">
+                <br>
+                <div style="margin-top: 10px;"></div>
+                <label class="add-e">部&emsp;&emsp;门 : </label><input id="dept" name="dept" class="easyui-textbox"
+                                                                     data-options="prompt:'Enter dept'"
+                                                                     style="width:30%;height:32px">
+                <label class="add-e">电&emsp;&emsp;话 : </label><input id="phoneNum" name="phoneNum"
+                                                                     class="easyui-textbox"
+                                                                     data-options="prompt:'Enter phoneNum'"
+                                                                     style="width:30%;height:32px"><br>
+                <br>
+                <label class="add-e">职&emsp;&emsp;位 : </label><input id="position" name="position"
+                                                                     class="easyui-textbox"
+                                                                     data-options="prompt:'Enter position'"
+                                                                     style="width:30%;height:32px">
+                <label class="add-e">上岗时间 : </label><input id="inWithTime" name="inWithTime" class="easyui-textbox"
+                                                           data-options="prompt:'Enter inTime'"
+                                                           style="width:30%;height:32px"><br>
+                <br>
+                <div style="margin-top: 10px;"></div>
+                <label class="add-e">身份证号 : </label><input id="idCardNo" name="idCardNo" class="easyui-textbox"
+                                                           data-options="prompt:'Enter idCardNo'"
+                                                           style="width:30%;height:32px">
+                <label class="add-e">银行账户 : </label><input id="bankAccount" name="bankAccount" class="easyui-textbox"
+                                                           data-options="prompt:'Enter bankAccount'"
+                                                           style="width:30%;height:32px">
+                <br>
+                <div style="margin-top: 10px;"></div>
+                <label class="add-e">邮箱地址 : </label><input id="email" name="email" class="easyui-textbox"
+                                                           data-options="prompt:'Enter email'"
+                                                           style="width:30%;height:32px">
+                <label class="add-e">基础薪资 : </label><input id="lowSalary" name="lowSalary" class="easyui-textbox"
+                                                           data-options="prompt:'Enter lowSalary'"
+                                                           style="width:30%;height:32px">
+                <input id="id" name="id" class="easyui-textbox"
+                       data-options="prompt:'Enter lowSalary'">
+                <input id="eAccount" name="eAccount" class="easyui-textbox"
+                       data-options="prompt:'Enter lowSalary'">
+            </form>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+            <!--            //<div id="dlg-buttons">-->
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'"
+               onclick="javascript:updateemp()">Save</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
+               onclick="javascript:$('#w1').dialog('close')">Close</a>
+            <!--            </div>-->
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     $(function () {
+        $("#id").next().hide();
+        $("#eAccount").next().hide();
+        $('#w').window('close');
+        $('#w1').window('close');
         var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of datagrid
-        pager.pagination({
-            buttons: [
-                {
-                    iconCls: 'icon-add',
-                    handler: function (event, data) {
-                        //console.log(event + " " + data)
-                        //location.href = "yonghu_add.html"
-                    }
-                },
-                {
-                    iconCls: 'icon-edit',
-                    handler: function () {
-                        var row = $('#dg').datagrid('getSelected');
-                        if (row) {
-                            $.messager.alert('Info', row.itemid + ":"
-                                + row.productid + ":" + row.attr1);
-                        }
-                    }
-                }]
-        });
+
+        /* pager.pagination({
+             buttons:[{
+                 iconCls:'icon-remove',
+                 handler:function(){
+                     var row = $('#dg').datagrid('getSelected');
+                     if(row!=null){
+                         $.messager.confirm("操作提示", "您确定要删除该员工信息吗？", function (data) {
+                             if (data) {
+                                 var eId = row.eId;
+                                 console.log(eId)
+                                 $.post("/OASystem/empinfo/dele","eId="+eId,function(data){
+                                     if(data.code == 200){
+                                         removeit(row)
+                                     }else{
+                                         $.messager.alert("操作提示", "操作失败！","error");
+                                     }
+                                 });
+                             }
+                         });
+                     }else{
+                         $.messager.alert("操作提示", "操作失败！请至少选择一条！","error");
+                     }
+                 }
+
+             },{
+                 iconCls:'icon-edit',
+                 handler:function(){
+                     $('#w').window('open')
+                 }
+             },{
+                 iconCls:'icon-add',
+                 handler:function(){
+                     $('#w').window('open')
+                 }
+             }]
+         });*/
     })
 
-    function getSelected() {
+    function wcolse() {
+        $('#w').dialog('close')
+    }
+
+    function wcolse1() {
+        $('#w1').dialog('close')
+    }
+
+    function add() {
+        //console.log("添加添加")
+        var row = $('#add').serialize()
+        $.get("/OASystem/empinfo/addemp", row, function (data) {
+            if (data.code == 200) {
+                $.messager.alert("操作提示", "添加成功！", "success");
+                wcolse();
+            }
+        });
+    }
+
+    var editIndex = undefined;
+
+    function endEditing() {
+        if (editIndex == undefined) {
+            return true
+        }
+        if ($('#dg').datagrid('validateRow', editIndex)) {
+            var ed = $('#dg').datagrid('getEditor', {index: editIndex, field: 'productid'});
+            var productname = $(ed.target).combobox('getText');
+            $('#dg').datagrid('getRows')[editIndex]['productname'] = productname;
+            $('#dg').datagrid('endEdit', editIndex);
+            editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function onClickRow(index) {
+        if (editIndex != index) {
+            if (endEditing()) {
+                $('#dg').datagrid('selectRow', index)
+                    .datagrid('beginEdit', index);
+                editIndex = index;
+            } else {
+                $('#dg').datagrid('selectRow', editIndex);
+            }
+        }
+    }
+
+    function append() {
+        $('#add')[0].reset();
+        $('#w').window('open');
+    }
+
+    function editemp() {
         var row = $('#dg').datagrid('getSelected');
-        if (row) {
-            $.messager.alert('Info', row.itemid + ":" + row.productid + ":"
-                + row.attr1);
+        if (row != null) {
+            var eId = row.eId;
+            $.get("/OASystem/empinfo/getByeId", "eId=" + eId, function (data) {
+                if (data.code == 200) {
+                    //console.log(data.data)
+                    $('#w1').window('open');
+                    $('#id').textbox('setValue', data.data.id);
+                    $('#eAccount').textbox('setValue', data.data.eAccount);
+                    $('#eId').textbox('setValue', data.data.eId);
+                    $("#name").textbox('setValue', data.data.name);
+                    $("#dept").textbox('setValue', data.data.dept)
+                    $("#phoneNum").textbox('setValue', data.data.phoneNum)
+                    $("#position").textbox('setValue', data.data.position)
+                    $("#inWithTime").textbox('setValue', data.data.inWithTime)
+                    $("#idCardNo").textbox('setValue', data.data.idCardNo)
+                    $("#bankAccount").textbox('setValue', data.data.bankAccount)
+                    $("#email").textbox('setValue', data.data.email)
+                    $("#lowSalary").textbox('setValue', data.data.lowSalary)
+                } else {
+                    $.messager.alert("操作提示", "操作失败！", "error");
+                }
+            })
+        } else {
+            $.messager.alert("操作提示", "操作失败！请至少选择一条！", "error");
+        }
+    }
+
+    function updateemp() {
+        $.messager.confirm("操作提示", "您确定要修改该员工信息吗？", function (data) {
+            if(data) {
+                var emp = $('#edit').serialize()
+                console.log(emp)
+                $.ajax({
+                    type: 'POST',
+                    url: '/OASystem/empinfo/update',
+                    //async:true,
+                    //contentType:'application/json;charset=utf-8',
+                    <!--将输入数据传到Controller-->
+                    data: $('#edit').serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $.messager.alert("操作提示", "修改成功！", "success");
+                            wcolse1();
+                        } else {
+                            $.messager.alert("操作提示", "操作失败！", "error");
+                        }
+                    },
+                    error: function (msg) {
+                        $.messager.alert("操作提示", "服务器异常！", "error");
+
+                    }
+                });
+            } else{
+                console.log("关闭")
+            }
+            /* $.get("/OASystem/empinfo/update", "emp=" + emp, function (data) {
+                 if (data.code == 200) {
+                     $.messager.alert("操作提示", "修改成功！", "success");
+                 } else {
+                     $.messager.alert("操作提示", "操作失败！", "error");
+                 }
+             })*/
+        })
+    }
+
+    //
+    function removeit() {
+        var row = $('#dg').datagrid('getSelected');
+        if (row != null) {
+            var eId = row.eId;
+            $.messager.confirm("操作提示", "您确定要删除该员工信息吗？", function (data) {
+                if(data) {
+                    $.get("/OASystem/empinfo/dele", "eId=" + eId, function (data) {
+                        if (data.code == 200) {
+                            if (editIndex == undefined) {
+                                return
+                            }
+                            $('#dg').datagrid('cancelEdit', editIndex)
+                                .datagrid('deleteRow', editIndex);
+                            editIndex = undefined;
+                        } else {
+                            $.messager.alert("操作提示", "操作失败！", "error");
+                        }
+                    })
+                }else {
+                    console.log("关闭")
+                }
+            })
+
+        } else {
+            $.messager.alert("操作提示", "操作失败！请至少选择一条！", "error");
+        }
+    }
+
+    function admin(){
+        var row = $('#dg').datagrid('getSelected');
+        if (row != null) {
+            var eId = row.eId;
+            $.messager.confirm("操作提示", "您确定要将该员工设置为管理员吗？", function (data) {
+                if(data) {
+                    $.get("/OASystem/empinfo/admin", "eId=" + eId, function (data) {
+                        if (data.code == 200) {
+                            $.messager.alert("操作提示", "操作成功！", "success");
+                        } else if (data.code == 500) {
+                            $.messager.alert("操作提示", "该用户已是管理员！", "error");
+                        }
+                    })
+                }else {
+                    console.log("关闭")
+                }
+            })
+        } else {
+            $.messager.alert("操作提示", "操作失败！请至少选择一条！", "error");
         }
     }
 

@@ -1,8 +1,15 @@
-package com.oa.bean;
+package com.oa.utils;
+
+import lombok.Data;
 
 import java.util.Date;
 
-public class Employees {
+/**
+ * @author CHTW
+ * @date 2020/3/20 13:25
+ */
+
+public class ResultEmp {
     private Integer id;
 
     private String eAccount;
@@ -33,7 +40,7 @@ public class Employees {
 
     private String contractNum;
 
-    private Date inTime;
+    private String inWithTime;
 
     private Integer gradeId;
 
@@ -50,7 +57,7 @@ public class Employees {
     }
 
     public void seteAccount(String eAccount) {
-        this.eAccount = eAccount == null ? null : eAccount.trim();
+        this.eAccount = eAccount;
     }
 
     public String geteId() {
@@ -58,7 +65,7 @@ public class Employees {
     }
 
     public void seteId(String eId) {
-        this.eId = eId == null ? null : eId.trim();
+        this.eId = eId;
     }
 
     public String getName() {
@@ -66,7 +73,7 @@ public class Employees {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public Integer getAge() {
@@ -82,7 +89,7 @@ public class Employees {
     }
 
     public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+        this.sex = sex;
     }
 
     public String getePassword() {
@@ -90,7 +97,7 @@ public class Employees {
     }
 
     public void setePassword(String ePassword) {
-        this.ePassword = ePassword == null ? null : ePassword.trim();
+        this.ePassword = ePassword;
     }
 
     public String getIdCardNo() {
@@ -98,7 +105,7 @@ public class Employees {
     }
 
     public void setIdCardNo(String idCardNo) {
-        this.idCardNo = idCardNo == null ? null : idCardNo.trim();
+        this.idCardNo = idCardNo;
     }
 
     public String getPhoneNum() {
@@ -106,7 +113,7 @@ public class Employees {
     }
 
     public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum == null ? null : phoneNum.trim();
+        this.phoneNum = phoneNum;
     }
 
     public String getEmail() {
@@ -114,7 +121,7 @@ public class Employees {
     }
 
     public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+        this.email = email;
     }
 
     public String getBankAccount() {
@@ -122,7 +129,7 @@ public class Employees {
     }
 
     public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount == null ? null : bankAccount.trim();
+        this.bankAccount = bankAccount;
     }
 
     public String getDept() {
@@ -130,7 +137,7 @@ public class Employees {
     }
 
     public void setDept(String dept) {
-        this.dept = dept == null ? null : dept.trim();
+        this.dept = dept;
     }
 
     public String getPosition() {
@@ -138,7 +145,7 @@ public class Employees {
     }
 
     public void setPosition(String position) {
-        this.position = position == null ? null : position.trim();
+        this.position = position;
     }
 
     public Double getLowSalary() {
@@ -154,15 +161,15 @@ public class Employees {
     }
 
     public void setContractNum(String contractNum) {
-        this.contractNum = contractNum == null ? null : contractNum.trim();
+        this.contractNum = contractNum;
     }
 
-    public Date getInTime() {
-        return inTime;
+    public String getInWithTime() {
+        return inWithTime;
     }
 
-    public void setInTime(Date inTime) {
-        this.inTime = inTime;
+    public void setInWithTime(String inWithTime) {
+        this.inWithTime = inWithTime;
     }
 
     public Integer getGradeId() {
@@ -175,7 +182,7 @@ public class Employees {
 
     @Override
     public String toString() {
-        return "Employees{" +
+        return "ResultEmp{" +
                 "id=" + id +
                 ", eAccount='" + eAccount + '\'' +
                 ", eId='" + eId + '\'' +
@@ -191,7 +198,7 @@ public class Employees {
                 ", position='" + position + '\'' +
                 ", lowSalary=" + lowSalary +
                 ", contractNum='" + contractNum + '\'' +
-                ", inTime=" + inTime +
+                ", inWithTime='" + inWithTime + '\'' +
                 ", gradeId=" + gradeId +
                 '}';
     }

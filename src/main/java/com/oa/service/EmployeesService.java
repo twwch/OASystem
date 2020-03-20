@@ -2,7 +2,7 @@ package com.oa.service;
 
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.Employees;
-import com.oa.utils.CommonResult;
+import com.oa.utils.ResultEmp;
 
 import java.util.List;
 
@@ -12,8 +12,21 @@ import java.util.List;
  */
 public interface EmployeesService {
 
-    public List<Employees> getCount();
+    List<Employees> getCount();
 
+    PageInfo<Employees> easyuiGetData(int nowpage, int size, String eId, String name, String dept);
 
-    public PageInfo<Employees> easyuiGetData(int nowpage, int size, String eId, String name, String dept);
+    int dele(String eId);
+
+    int addemp(ResultEmp resultEmp);
+
+    ResultEmp getByeId(String eId);
+
+    int updateEmp(ResultEmp resultEmp);
+
+    int admin(String eId,Integer gradeId);
+
+    PageInfo<Employees> easyuiGetDataAdmin(int nowpage, int size, String eId, String name, String dept);
+
+    int removeAdmin(String eId,Integer gradeId);
 }

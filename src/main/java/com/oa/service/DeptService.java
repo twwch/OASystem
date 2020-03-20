@@ -1,6 +1,5 @@
 package com.oa.service;
 
-import com.oa.bean.Dept;
 import com.oa.bean.ResultDept;
 
 import java.util.List;
@@ -14,5 +13,5 @@ public interface DeptService {
      * 获取所有部门
      * @return
      */
-    public List<ResultDept> getAll();
+    List<ResultDept> getAll();
 }
