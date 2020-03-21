@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>离职员工</title>
+    <link rel="stylesheet" type="text/css"
+          href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css"
+          href="easyui/demo/demo.css">
+    <script type="text/javascript"
+            src="common/lib/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript"
+            src="easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="easyui/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+<div style="margin: 20px 0;"></div>
+<table id="dg" title="离 职 员 工 信 息" style="width: 100%;"
+       data-options="rownumbers:true,singleSelect:true,pagination:true,
+				onClickRow: onClickRow,url:'/OASystem/emplost/lost',method:'get',toolbar:'#tb'">
+    <thead>
+    <tr>
+        <th style="width: 40%" data-options="field:'eAccount',align:'center'">随机账号</th>
+        <th style="width: 15%" data-options="field:'eId',align:'center'">工 号</th>
+        <th style="width: 15%" data-options="field:'name',align:'center'">姓名</th>
+        <th style="width: 15%" data-options="field:'phoneNum',width:100,align:'center'">电话</th>
+        <th style="width: 15%" data-options="field:'lostOutTime',align:'center'">离职时间</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb" style="font-size: 17px;height: 70px;padding-top: 9px;">
+    <div style="margin-top: 10px">
+        &emsp;姓名&emsp;<input style="font-size: 15px;" type="text" name="standard.name" id="emp_name"/>&emsp;&emsp;
+        工号&emsp;<input style="font-size: 15px" type="text" name="standard.minWeight" id="emp_eId"/>&emsp;&emsp;
+        <a id="standardQueryBtn" href="javascript:void(0)"
+           class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of datagrid
+    })
+
+
+    var editIndex = undefined;
+
+    function endEditing() {
+        if (editIndex == undefined) {
+            return true
+        }
+        if ($('#dg').datagrid('validateRow', editIndex)) {
+            var ed = $('#dg').datagrid('getEditor', {index: editIndex, field: 'productid'});
+            var productname = $(ed.target).combobox('getText');
+            $('#dg').datagrid('getRows')[editIndex]['productname'] = productname;
+            $('#dg').datagrid('endEdit', editIndex);
+            editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function onClickRow(index) {
+        if (editIndex != index) {
+            if (endEditing()) {
+                $('#dg').datagrid('selectRow', index)
+                    .datagrid('beginEdit', index);
+                editIndex = index;
+            } else {
+                $('#dg').datagrid('selectRow', editIndex);
+            }
+        }
+    }
+
+
+    $("#standardQueryBtn").click(function () {
+        //$("#dg") 获取easui的数据表格   datagrid("load" 重新加载表格 后面的几个数据是请求的参数
+        $("#dg").datagrid("load", {
+            "name": $("#emp_name").val(),
+            "eId": $("#emp_eId").val()
+        });
+
+    });
+</script>
+</body>
+
+</html>
