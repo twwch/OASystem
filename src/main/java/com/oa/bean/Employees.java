@@ -172,4 +172,27 @@ public class Employees {
     public void setGradeId(Integer gradeId) {
         this.gradeId = gradeId;
     }
+
+    @Override
+    public String toString() {
+        return "Employees{" +
+                "id=" + id +
+                ", eAccount='" + eAccount + '\'' +
+                ", eId='" + eId + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", sex='" + sex + '\'' +
+                ", ePassword='" + ePassword + '\'' +
+                ", idCardNo='" + idCardNo + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", email='" + email + '\'' +
+                ", bankAccount='" + bankAccount + '\'' +
+                ", dept='" + dept + '\'' +
+                ", position='" + position + '\'' +
+                ", lowSalary=" + lowSalary +
+                ", contractNum='" + contractNum + '\'' +
+                ", inTime=" + inTime +
+                ", gradeId=" + gradeId +
+                '}';
+    }
 }
