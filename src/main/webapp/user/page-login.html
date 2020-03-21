@@ -94,8 +94,8 @@
 
             var eid = $("#eId").val();
             var password = $("#password").val();
-            console.log(eid);
-            console.log(password);
+            // console.log(eid);
+            // console.log(password);
 
             $.ajax({
                 url: "/OASystem/empinfo/login",
@@ -104,7 +104,7 @@
                 data: {"eId":eid,"password":password},
                 success: function (data) {
                     if (data["code"] == 404){
-                        alert(date["message"]);
+                        alert(data["message"]);
                     }else {
                         window.location.href = "./attendance.html"
                     }

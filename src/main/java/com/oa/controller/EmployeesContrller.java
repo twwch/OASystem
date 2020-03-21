@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.oa.bean.Attendance;
 import com.oa.bean.Employees;
 import com.oa.bean.PubIp;
+import com.oa.bean.Salarys;
 import com.oa.enumutil.EmpEnum;
 import com.oa.enumutil.Result;
 import com.oa.mapper.EmployeesMapper;
@@ -214,30 +215,48 @@ public class EmployeesContrller {
         return new CommonResult(500,"登录成功");
     }
 
+    /**
+     * @Description: sign  根据ip  当前时间  已经session的工号进行打卡
+     * @param: [ip, now, session]
+     * @return: com.oa.utils.CommonResult
+     * @auther: zqq
+     * @date: 20/3/21 13:05
+     */
     @RequestMapping(value = "/sign")
     public CommonResult sign(@RequestParam(required = true) String ip, String now, HttpSession session) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = simpleDateFormat.parse(now);
         Employees emp = new Employees();
-
         PubIp pubIp = new PubIp();
         pubIp.setIp(ip);
         if (ipService.judgeIp(pubIp) == 1){
             emp.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
             Employees empById = employeesService.getEmpById(emp);
+            Date date = TimeUtils.getDate(now);
             Attendance attendance = new Attendance();
             attendance.seteId(empById.geteId());
             attendance.setName(empById.getName());
             attendance.setTakeTime(date);
+            // 判断时间小于12点就是上班打卡
+            if ((Integer.parseInt(now.split(" ")[1].split(":")[0]) < 12) && (!TimeUtils.judgeUpTime(now.split(" ")[1]))){
+                // 判断是否迟到 1表示迟到
+                attendance.setTakeState(1);
+            }else if((Integer.parseInt(now.split(" ")[1].split(":")[0]) < 23) && (!TimeUtils.judgeDownTime(now.split(
+                    " ")[1]))) {
+                // 判断是否早退 2表示早退
+                attendance.setTakeState(2);
+            }else {
+                // 0表示正常上班
+                attendance.setTakeState(0);
+            }
             int code = employeesService.attendance(attendance);
             if (code != 1){
                 return new CommonResult(404,"打卡失败请重试");
             }
             return new CommonResult(500,"打卡成功");
         }
-
         return new CommonResult(404,"请连接公司网络打卡");
     }
+
+
     @RequestMapping(value = "/removeAdmin", method = RequestMethod.GET)
     public CommonResult<Integer> removeAdmin(Integer id){
         int i = employeesService.removeAdmin(id, EmpEnum.NOTADMIN.getCode());
@@ -245,5 +264,21 @@ public class EmployeesContrller {
             return new CommonResult<Integer>(Result.SUCCESS.getCode(), "修改成功", i);
         }
         return new CommonResult<Integer>(Result.FAIL.getCode(), "修改失败", 0);
+    }
+
+
+    /**
+     * @Description: salary  出来获取工资列表请求
+     * @param: [session]
+     * @return: com.oa.utils.CommonResult  装有工资的列表
+     * @auther: zqq
+     * @date: 20/3/21 21:07
+     */
+    @RequestMapping(value = "/salary")
+    public CommonResult salary(HttpSession session){
+        Salarys salarys = new Salarys();
+        salarys.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
+        List<Salarys> salarysList = employeesService.salaryList(salarys);
+        return new CommonResult<List<Salarys>>(Result.SUCCESS.getCode(),"获取成功",salarysList);
     }
 }

@@ -3,6 +3,7 @@ package com.oa.service;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.Attendance;
 import com.oa.bean.Employees;
+import com.oa.bean.Salarys;
 import com.oa.utils.ResultEmp;
 
 import java.util.List;
@@ -13,7 +14,10 @@ import java.util.List;
  */
 public interface EmployeesService {
 
-    public String SESSION_EID = "";
+    /**
+     * session存储员工号
+     */
+    String SESSION_EID = "";
 
     List<Employees> getCount();
 
@@ -25,13 +29,26 @@ public interface EmployeesService {
 
     ResultEmp getByeId(String eId);
 
+    /**
+     * 普通员工登录，判断账号密码是否正确
+     * @param employees
+     * @return
+     */
+    int login(Employees employees);
 
+    /**
+     * 通过session的工号获取员工的信息
+     * @param employees
+     * @return
+     */
+    Employees getEmpById(Employees employees);
 
-    public int login(Employees employees);
-
-    public Employees getEmpById(Employees employees);
-
-    public int attendance(Attendance attendance);
+    /**
+     * 考勤打卡入库
+     * @param attendance
+     * @return
+     */
+    int attendance(Attendance attendance);
 
     int updateEmp(ResultEmp resultEmp);
 
@@ -40,4 +57,11 @@ public interface EmployeesService {
     PageInfo<Employees> easyuiGetDataAdmin(int nowpage, int size, String eId, String name, String dept);
 
     int removeAdmin(Integer id,Integer gradeId);
+
+    /**
+     * 通过员工的工号获取工资列表信息
+     * @param salarys
+     * @return
+     */
+    List<Salarys> salaryList(Salarys salarys);
 }

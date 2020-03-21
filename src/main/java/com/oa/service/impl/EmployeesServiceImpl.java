@@ -3,14 +3,11 @@ package com.oa.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.oa.bean.Attendance;
-import com.oa.bean.AttendanceExample;
-import com.oa.bean.EmpLost;
-import com.oa.bean.Employees;
-import com.oa.bean.EmployeesExample;
+import com.oa.bean.*;
 import com.oa.mapper.AttendanceMapper;
 import com.oa.enumutil.EmpEnum;
 import com.oa.mapper.EmployeesMapper;
+import com.oa.mapper.SalarysMapper;
 import com.oa.service.EmployeesService;
 import com.oa.utils.ResultEmp;
 import com.oa.utils.TimeUtils;
@@ -39,17 +36,21 @@ public class EmployeesServiceImpl implements EmployeesService {
     @Autowired
     private EmpLostServiceImpl empLostService;
 
+    private SalarysMapper salarysMapper;
+
     /**
      * 获取员工数量
      *
      * @return
      * @author CHTW
      */
+    @Override
     public List<Employees> getCount() {
         List<Employees> employeesList = employeesMapper.selectByExample(new EmployeesExample());
         return employeesList;
     }
 
+    @Override
     public PageInfo<Employees> easyuiGetData(int nowpage, int size, String eId, String name, String dept) {
         PageHelper.startPage(nowpage, size);
         EmployeesExample example = new EmployeesExample();
@@ -74,6 +75,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param eId
      * @return
      */
+    @Override
     public int dele(String eId) {
         EmployeesExample example = new EmployeesExample();
         EmployeesExample.Criteria ctr = example.createCriteria();
@@ -92,6 +94,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param resultEmp
      * @return
      */
+    @Override
     public int addemp(ResultEmp resultEmp) {
         //System.out.println(resultEmp);
         Employees employees = new Employees();
@@ -118,6 +121,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param eId
      * @return
      */
+    @Override
     public ResultEmp getByeId(String eId) {
         EmployeesExample example = new EmployeesExample();
         EmployeesExample.Criteria ctr = example.createCriteria();
@@ -140,6 +144,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param resultEmp
      * @return
      */
+    @Override
     public int updateEmp(ResultEmp resultEmp) {
         Employees employees = new Employees();
         BeanUtils.copyProperties(resultEmp, employees);
@@ -156,6 +161,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param gradeId
      * @return
      */
+    @Override
     public int admin(Integer id, Integer gradeId) {
         EmployeesExample employeesExample = new EmployeesExample();
         EmployeesExample.Criteria criteria = employeesExample.createCriteria();
@@ -173,6 +179,7 @@ public class EmployeesServiceImpl implements EmployeesService {
         return 0;
     }
 
+    @Override
     public PageInfo<Employees> easyuiGetDataAdmin(int nowpage, int size, String eId, String name, String dept) {
         PageHelper.startPage(nowpage, size);
         EmployeesExample example = new EmployeesExample();
@@ -207,7 +214,7 @@ public class EmployeesServiceImpl implements EmployeesService {
         criteria.andEIdEqualTo(employees.geteId());
         List<Employees> employeesList = employeesMapper.selectByExample(employeesExample);
         if (employeesList.size() == 1){
-            return employees.geteId().equals(employeesList.get(0).geteId()) ? 0 : 1;
+            return employees.getePassword().equals(employeesList.get(0).getePassword()) ? 0 : 1;
         }
         return -1;
     }
@@ -239,15 +246,40 @@ public class EmployeesServiceImpl implements EmployeesService {
     public int attendance(Attendance attendance) {
         AttendanceExample attendanceExample = new AttendanceExample();
         int insert = attendanceMapper.insert(attendance);
-
-        return 0;
+        return insert;
     }
 
-
+    @Override
     public int removeAdmin(Integer id, Integer gradeId) {
         Employees employees = new Employees();
         employees.setId(id);
         employees.setGradeId(gradeId);
         return employeesMapper.updateByPrimaryKeySelective(employees);
+    }
+
+    /**
+     * @Description: salaryList  通过工号获取该员工的工资信息列表
+     * @param: [salarys]
+     * @return: java.util.List<com.oa.bean.Salarys>   返回该员工的工资列表
+     * @auther: zqq
+     * @date: 20/3/21 20:55
+     */
+    @Override
+    public List<Salarys> salaryList(Salarys salarys) {
+        SalarysExample salarysExample = new SalarysExample();
+        SalarysExample.Criteria criteria = salarysExample.createCriteria();
+        criteria.andEIdEqualTo(salarys.geteId());
+        List<Salarys> salarys1 = salarysMapper.selectByExample(salarysExample);
+        for (Salarys s : salarys1) {
+            s.setSerialNum(null);
+            s.setBasicWage(null);
+            s.setRoyalty(null);
+            s.setWorkDays(null);
+            s.setWorkDays(null);
+            s.setLeaveEarlyDays(null);
+            s.setIssueTime(null);
+            s.setAccountOther(null);
+        }
+        return salarys1;
     }
 }

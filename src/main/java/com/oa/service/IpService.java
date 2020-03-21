@@ -8,6 +8,9 @@ import com.oa.bean.PubIp;
  */
 public interface IpService {
 
+    /**
+     * 对ip进行判断，判断是否是公司的公网ip
+     */
     public int judgeIp(PubIp pubIp);
 
 }

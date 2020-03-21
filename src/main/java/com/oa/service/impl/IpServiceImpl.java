@@ -5,6 +5,7 @@ import com.oa.bean.PubIpExample;
 import com.oa.mapper.PubIpMapper;
 import com.oa.service.IpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ import java.util.List;
  * @author zqq
  * @create 2020-03-20-21:40
  */
+
+@Service
 public class IpServiceImpl implements IpService {
 
     @Autowired
