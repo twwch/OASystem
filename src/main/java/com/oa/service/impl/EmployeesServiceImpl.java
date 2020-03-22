@@ -38,11 +38,12 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @return
      * @author CHTW
      */
+    @Override
     public List<Employees> getCount() {
         List<Employees> employeesList = employeesMapper.selectByExample(new EmployeesExample());
         return employeesList;
     }
-
+    @Override
     public PageInfo<Employees> easyuiGetData(int nowpage, int size, String eId, String name, String dept) {
         PageHelper.startPage(nowpage, size);
         EmployeesExample example = new EmployeesExample();
@@ -67,6 +68,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param eId
      * @return
      */
+    @Override
     public int dele(String eId) {
         EmployeesExample example = new EmployeesExample();
         EmployeesExample.Criteria ctr = example.createCriteria();
@@ -85,6 +87,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param resultEmp
      * @return
      */
+    @Override
     public int addemp(ResultEmp resultEmp) {
         //System.out.println(resultEmp);
         Employees employees = new Employees();
@@ -111,6 +114,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param eId
      * @return
      */
+    @Override
     public ResultEmp getByeId(String eId) {
         EmployeesExample example = new EmployeesExample();
         EmployeesExample.Criteria ctr = example.createCriteria();
@@ -133,6 +137,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param resultEmp
      * @return
      */
+    @Override
     public int updateEmp(ResultEmp resultEmp) {
         Employees employees = new Employees();
         BeanUtils.copyProperties(resultEmp, employees);
@@ -149,6 +154,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param gradeId
      * @return
      */
+    @Override
     public int admin(Integer id, Integer gradeId) {
         EmployeesExample employeesExample = new EmployeesExample();
         EmployeesExample.Criteria criteria = employeesExample.createCriteria();
@@ -165,7 +171,7 @@ public class EmployeesServiceImpl implements EmployeesService {
         }
         return 0;
     }
-
+    @Override
     public PageInfo<Employees> easyuiGetDataAdmin(int nowpage, int size, String eId, String name, String dept) {
         PageHelper.startPage(nowpage, size);
         EmployeesExample example = new EmployeesExample();
@@ -185,7 +191,7 @@ public class EmployeesServiceImpl implements EmployeesService {
         return info;
     }
 
-
+    @Override
     public int removeAdmin(Integer id, Integer gradeId) {
         Employees employees = new Employees();
         employees.setId(id);

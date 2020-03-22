@@ -221,13 +221,15 @@ public class EmployeesContrller {
      * @return
      * @author CHTW
      */
-    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
-    public CommonResult<Integer> adminLogin(String eId, String ePassword) {
-        //System.out.println(ePassword);
-        int i = employeesService.adminLogin(eId, ePassword);
-        if (i > 0) {
-            return new CommonResult<Integer>(Result.SUCCESS.getCode(), "登录成功", i);
-        }
-        return new CommonResult<Integer>(Result.FAIL.getCode(), "登录失败", 0);
-    }
+//    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+//    public CommonResult<Integer> adminLogin(String eId, String ePassword) {
+//        //System.out.println(ePassword);
+//        int i = employeesService.adminLogin(eId, ePassword);
+//        if (i > 0) {
+//            return new CommonResult<Integer>(Result.SUCCESS.getCode(), "登录成功", i);
+//        }
+//        return new CommonResult<Integer>(Result.FAIL.getCode(), "登录失败", 0);
+//    }
+
+
 }
