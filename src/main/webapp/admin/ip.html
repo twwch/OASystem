@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>IP地址管理</title>
+    <link rel="stylesheet" type="text/css"
+          href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css"
+          href="easyui/demo/demo.css">
+    <script type="text/javascript"
+            src="common/lib/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript"
+            src="easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript"
+            src="common/js/ip.js"></script>
+</head>
+
+<body>
+<div style="margin: 5px 0;"></div>
+<table id="dg" title="IP地址管理" style="width: 50%;"
+       data-options="rownumbers:true,singleSelect:true,pagination:true,
+				onClickRow: onClickRow,url:'/OASystem/ip/easyuiGetData',method:'get',toolbar:'#tb'">
+    <thead>
+    <tr>
+        <th style="width: 50%" data-options="field:'ip',align:'center'">IP</th>
+        <th style="width: 50%" data-options="field:'ipName',align:'center'">所在地址</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb" style="font-size: 17px;height: 50px;padding-top: 9px;">
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"
+       onclick="append()">Append</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true"
+       onclick="removeit()">Remove</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true"
+       onclick="editemp()">Edit</a>
+    <br>
+
+</div>
+
+
+<div id="w" class="easyui-window" title="添加数据" data-options="iconCls:'icon-save'"
+     style="width:300px;height:200px;padding:5px">
+    <div class="easyui-layout" data-options="fit:true">
+        <div id="message" data-options="region:'center'" style="padding:10px;font-size: 16px;">
+            <form id="add">
+                <label class="add-e">I&emsp;P: </label><input name="ip" class="easyui-textbox"
+                                                              data-options="prompt:'Enter ip'"
+                                                              style="width:65%;height:32px">
+                <br>
+                <div style="margin-top: 15px;"></div>
+                <label class="add-e">地址: </label><input name="ipName" class="easyui-textbox"
+                                                        data-options="prompt:'Enter ipName'"
+                                                        style="width:65%;height:32px">
+            </form>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+            <!--            //<div id="dlg-buttons">-->
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'"
+               onclick="javascript:add()">Save</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
+               onclick="javascript:$('#w').dialog('close')">Close</a>
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
+
+<div id="w1" class="easyui-window" title="编辑数据" data-options="iconCls:'icon-save'"
+     style="width:300px;height:200px;padding:5px">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="padding:10px;font-size: 16px;">
+            <form id="edit">
+                <label class="add-e">I&emsp;P: </label><input name="ip" class="easyui-textbox" id="ip"
+                                                              data-options="prompt:'Enter ip'"
+                                                              style="width:65%;height:32px">
+                <br>
+                <div style="margin-top: 15px;"></div>
+                <label class="add-e">地址: </label><input name="ipName" class="easyui-textbox" id="ipName"
+                                                        data-options="prompt:'Enter ipName'"
+                                                        style="width:65%;height:32px">
+                <input id="id" name="id" class="easyui-textbox"
+                       data-options="prompt:'Enter id'">
+            </form>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+            <!--            //<div id="dlg-buttons">-->
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'"
+               onclick="javascript:updateemp()">Save</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"
+               onclick="javascript:$('#w1').dialog('close')">Close</a>
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#id").next().hide();
+        $("#eAccount").next().hide();
+        $('#w').window('close');
+        $('#w1').window('close');
+        var pager = $('#dg').datagrid().datagrid('getPager');
+    })
+
+    function wcolse() {
+        $('#w').dialog('close')
+    }
+
+    function wcolse1() {
+        $('#w1').dialog('close')
+    }
+
+    function add() {
+        if (isIP('add')) {
+            //console.log("添加添加")
+            var row = $('#add').serialize()
+            $.get("/OASystem/ip/addip", row, function (data) {
+                if (data.code == 200) {
+                    $.messager.alert("操作提示", "添加成功！", "success");
+                    wcolse();
+                }
+            });
+
+        }
+    }
+
+    var editIndex = undefined;
+
+    function endEditing() {
+        if (editIndex == undefined) {
+            return true
+        }
+        if ($('#dg').datagrid('validateRow', editIndex)) {
+            var ed = $('#dg').datagrid('getEditor', {index: editIndex, field: 'productid'});
+            var productname = $(ed.target).combobox('getText');
+            $('#dg').datagrid('getRows')[editIndex]['productname'] = productname;
+            $('#dg').datagrid('endEdit', editIndex);
+            editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function onClickRow(index) {
+        if (editIndex != index) {
+            if (endEditing()) {
+                $('#dg').datagrid('selectRow', index)
+                    .datagrid('beginEdit', index);
+                editIndex = index;
+            } else {
+                $('#dg').datagrid('selectRow', editIndex);
+            }
+        }
+    }
+
+    function append() {
+        //$('#add')[0].reset();
+        //document.getElementById("add").reset();
+        $("#add").form('clear');
+        $('#w').window('open');
+    }
+
+    function editemp() {
+        var row = $('#dg').datagrid('getSelected');
+        if (row != null) {
+            var id = row.id;
+            $.get("/OASystem/ip/getById", "id=" + id, function (data) {
+                if (data.code == 200) {
+                    //console.log(data.data)
+                    $('#w1').window('open');
+                    $('#id').textbox('setValue', data.data.id);
+                    $('#ip').textbox('setValue', data.data.ip);
+                    $('#ipName').textbox('setValue', data.data.ipName);
+
+                } else {
+                    $.messager.alert("操作提示", "操作失败！", "error");
+                }
+            })
+        } else {
+            $.messager.alert("操作提示", "操作失败！请至少选择一条！", "error");
+        }
+    }
+
+    function updateemp() {
+        if (isIP('save')) {
+            $.messager.confirm("操作提示", "您确定要修改该IP信息吗？", function (data) {
+                if (data) {
+                    var emp = $('#edit').serialize()
+                    $.ajax({
+                        type: 'POST',
+                        url: '/OASystem/ip/update',
+                        //async:true,
+                        //contentType:'application/json;charset=utf-8',
+                        <!--将输入数据传到Controller-->
+                        data: $('#edit').serialize(),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.code == 200) {
+                                $.messager.alert("操作提示", "修改成功！", "success");
+                                wcolse1();
+                            } else {
+                                $.messager.alert("操作提示", "操作失败！", "error");
+                            }
+                        },
+                        error: function (msg) {
+                            $.messager.alert("操作提示", "服务器异常！", "error");
+
+                        }
+                    });
+                } else {
+                    console.log("关闭")
+                }
+
+            })
+        }
+    }
+
+    //
+    function removeit() {
+        var row = $('#dg').datagrid('getSelected');
+        if (row != null) {
+            var id = row.id;
+            $.messager.confirm("操作提示", "您确定要删除该IP信息吗？", function (data) {
+                if (data) {
+                    $.get("/OASystem/ip/dele", "id=" + id, function (data) {
+                        if (data.code == 200) {
+                            if (editIndex == undefined) {
+                                return
+                            }
+                            $('#dg').datagrid('cancelEdit', editIndex)
+                                .datagrid('deleteRow', editIndex);
+                            editIndex = undefined;
+                        } else {
+                            $.messager.alert("操作提示", "操作失败！", "error");
+                        }
+                    })
+                } else {
+                    console.log("关闭")
+                }
+            })
+
+        } else {
+            $.messager.alert("操作提示", "操作失败！请至少选择一条！", "error");
+        }
+    }
+
+    $("#standardQueryBtn").click(function () {
+
+    });
+</script>
+</body>
+
+</html>

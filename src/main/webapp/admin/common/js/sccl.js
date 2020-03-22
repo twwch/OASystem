@@ -469,7 +469,7 @@ $(function () {
                         "isHeader": "0",
                         "childMenus": ""
                     },
-                    {
+                    /*{
                         "id": "15",
                         "name": "未打卡",
                         "parentId": "8",
@@ -478,7 +478,7 @@ $(function () {
                         "order": "1",
                         "isHeader": "0",
                         "childMenus": ""
-                    },
+                    },*/
                     {
                         "id": "16",
                         "name": "请假审核",
@@ -509,6 +509,17 @@ $(function () {
                         "isHeader": "0",
                         "childMenus": ""
                     }
+                    ,
+                    {
+                        "id": "19",
+                        "name": "IP管理",
+                        "parentId": "8",
+                        "url": "ip.html",
+                        "icon": "",
+                        "order": "1",
+                        "isHeader": "0",
+                        "childMenus": ""
+                    }
                 ]
             }
             , {
@@ -534,7 +545,7 @@ $(function () {
                         "id": "25",
                         "name": "未发放",
                         "parentId": "9",
-                        "url": "wei_fafang-count.html",
+                        "url": "wei_fafang.html",
                         "icon": "",
                         "order": "1",
                         "isHeader": "0",
@@ -544,7 +555,7 @@ $(function () {
                         "id": "26",
                         "name": "账户管理",
                         "parentId": "9",
-                        "url": "zhanghu-count.html",
+                        "url": "zhanghu.html",
                         "icon": "",
                         "order": "1",
                         "isHeader": "0",

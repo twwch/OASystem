@@ -20,7 +20,7 @@ function getCookie(name) {
 /*ajax请求*/
 function ajax(url, param, datat, callback) {
 	$.ajax({  
-		type: "post",  
+		type: "POST",
 		url: url,  
 		data: param,  
 		dataType: datat,
@@ -28,8 +28,8 @@ function ajax(url, param, datat, callback) {
 			callback(data);
 		},  
 		error: function (response) {
-			console.log(response);
-			alert("请求失败，status："+response.status);
+			//console.log(response);
+			layer.msg("请求失败，status："+response.status);
 		}
 	});  
 }
@@ -48,13 +48,6 @@ function ajaxget(url, param, datat, callback) {
 			alert("请求失败，status："+response.status);
 		}
 	});
-}
-
-function myurl(){
-	return "http://192.168.0.102:8080/health";
-}
-function opensurl(){
-	return "http://192.168.0.101:8020/zhaoyaohealthy/";
 }
 
 

@@ -21,13 +21,13 @@
         <h1>后台管理系统</h1>
     </header>
     <div class="login-main">
-        <form action="" id="loinfom" enctype="multipart/form-data" class="layui-form" method="post">
+        <form id="loinfom" class="layui-form">
             <input name="__RequestVerificationToken" type="hidden" value="">
             <div class="layui-form-item">
                 <label class="login-icon">
                     <i class="layui-icon iconfont">&#xe612;</i>
                 </label>
-                <input type="text" name="userName" lay-verify="userName" autocomplete="off" placeholder="这里输入登录名"
+                <input type="text" name="eId" lay-verify="eId" autocomplete="off" placeholder="这里输入登录名"
                        class="layui-input">
             </div>
             <div class="layui-form-item">
@@ -116,10 +116,10 @@
                             } else {
                                 var params = {};
                                 params.checkNum = $("#code").val();
-                                params.username = $('input[name=userName]').val();
+                                params.eId = $('input[name=eId]').val();
                                 params.password = hex_md5($('input[name=password]').val());
-                                //  params=JSON.stringify(params);
-                                console.log(params)
+                                params=JSON.stringify(params);
+                                //console.log(params)
                                 submit($, params);
                                 layer.close(index);
                             }
@@ -131,8 +131,8 @@
                     });
                 } else {
                     var params = {};
-                    params.username = $('input[name=userName]').val();
-                    params.password = hex_md5($('input[name=password]').val());
+                    params.eId = $('input[name=eId]').val();
+                    params.ePassword = hex_md5($('input[name=password]').val());
                     //params=JSON.stringify(params);
                     submit($, params);
                 }
@@ -144,16 +144,14 @@
 
         function submit($, params) {
             // alert(111)
-            window.location.href = "index.html";
-
-            /*ajax(url,params,"json",function(data){
-                console.log(data);
-                if(data.code==1){
+            //window.location.href = "index.html";
+            ajax("/OASystem/empinfo/admin/login",params,"json",function(data){
+                if(data.code==200){
                     window.location.href="index.html";
                 }else{
                     layer.msg('登录失败');
                 }
-            })*/
+            })
             //	ajax(url,params,"json","")
             // $("#loinfom").attr("action",url);
             //    $("#loinfom").submit();
