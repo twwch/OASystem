@@ -29,7 +29,4 @@ public interface EmployeesService {
     PageInfo<Employees> easyuiGetDataAdmin(int nowpage, int size, String eId, String name, String dept);
 
     int removeAdmin(Integer id,Integer gradeId);
-
-    int adminLogin(String eId,String ePassword);
-
 }

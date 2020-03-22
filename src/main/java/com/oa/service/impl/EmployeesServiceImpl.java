@@ -63,7 +63,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 
     /**
      * 删除员工
-     *@author CHTW
+     *
      * @param eId
      * @return
      */
@@ -81,7 +81,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 
     /**
      * 添加员工
-     *@author CHTW
+     *
      * @param resultEmp
      * @return
      */
@@ -90,19 +90,24 @@ public class EmployeesServiceImpl implements EmployeesService {
         Employees employees = new Employees();
         BeanUtils.copyProperties(resultEmp, employees);
         String inTime = resultEmp.getInWithTime();
-
+        /*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
+        Date date = new Date();
+        try {
+            date = simpleDateFormat.parse(inTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
         employees.setInTime(TimeUtils.getDate(inTime));
         // UUID uuid = UUID.randomUUID();
         employees.seteAccount(IdUtil.simpleUUID());
-
         //System.out.println(employees);
-        int i = employeesMapper.insertSelective(employees);
+        int i = employeesMapper.insert(employees);
         return i;
     }
 
     /**
      * 通过工号查询
-     *@author CHTW
+     *
      * @param eId
      * @return
      */
@@ -124,7 +129,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 
     /**
      * 修改
-     *@author CHTW
+     *
      * @param resultEmp
      * @return
      */
@@ -135,16 +140,12 @@ public class EmployeesServiceImpl implements EmployeesService {
         if (inTime != null && !"".equals(inTime)) {
             employees.setInTime(TimeUtils.getDate(inTime));
         }
-        EmployeesExample employeesExample = new EmployeesExample();
-        EmployeesExample.Criteria ctr = employeesExample.createCriteria();
-        ctr.andEIdEqualTo(employees.geteId());
-        return employeesMapper.updateByExampleSelective(employees,employeesExample);
-        //return employeesMapper.updateByPrimaryKeySelective(employees);
+        return employeesMapper.updateByPrimaryKey(employees);
     }
 
     /**
      * 设置管理员
-     *@author CHTW
+     *
      * @param gradeId
      * @return
      */
@@ -153,7 +154,10 @@ public class EmployeesServiceImpl implements EmployeesService {
         EmployeesExample.Criteria criteria = employeesExample.createCriteria();
         criteria.andIdEqualTo(id);
         criteria.andGradeIdEqualTo(gradeId);
+        Employees employees1 = employeesMapper.selectByExample(employeesExample).get(0);
+        System.out.println(employees1);
         if (employeesMapper.selectByExample(employeesExample).size() > 0) {
+            //criteria = employeesExample.createCriteria();
             Employees employees = new Employees();
             employees.setGradeId(EmpEnum.ISADMIN.getCode());
             employees.setId(id);
@@ -162,16 +166,6 @@ public class EmployeesServiceImpl implements EmployeesService {
         return 0;
     }
 
-    /**
-     * 获取管理员列表
-     * @author CHTW
-     * @param nowpage
-     * @param size
-     * @param eId
-     * @param name
-     * @param dept
-     * @return
-     */
     public PageInfo<Employees> easyuiGetDataAdmin(int nowpage, int size, String eId, String name, String dept) {
         PageHelper.startPage(nowpage, size);
         EmployeesExample example = new EmployeesExample();
@@ -192,34 +186,10 @@ public class EmployeesServiceImpl implements EmployeesService {
     }
 
 
-    /**
-     * 移出管理员但不删除
-     * @author CHTW
-     * @param id
-     * @param gradeId
-     * @return
-     */
     public int removeAdmin(Integer id, Integer gradeId) {
         Employees employees = new Employees();
         employees.setId(id);
         employees.setGradeId(gradeId);
         return employeesMapper.updateByPrimaryKeySelective(employees);
     }
-
-    /**
-     * 管理员登录接口
-     * @author CHTW
-     * @param eId
-     * @param ePassword
-     * @return
-     */
-    public int adminLogin(String eId, String ePassword) {
-        EmployeesExample example = new EmployeesExample();
-        EmployeesExample.Criteria ctr = example.createCriteria();
-        ctr.andEIdEqualTo(eId);
-        ctr.andEPasswordEqualTo(ePassword);
-        List<Employees> employeesList = employeesMapper.selectByExample(example);
-        return employeesList.size();
-    }
-
 }
