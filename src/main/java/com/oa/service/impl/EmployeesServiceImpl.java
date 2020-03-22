@@ -4,8 +4,8 @@ import cn.hutool.core.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.*;
-import com.oa.mapper.AttendanceMapper;
 import com.oa.enumutil.EmpEnum;
+import com.oa.mapper.AttendanceMapper;
 import com.oa.mapper.EmployeesMapper;
 import com.oa.mapper.SalarysMapper;
 import com.oa.service.EmployeesService;
@@ -13,7 +13,6 @@ import com.oa.utils.ResultEmp;
 import com.oa.utils.TimeUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -36,6 +35,8 @@ public class EmployeesServiceImpl implements EmployeesService {
     @Autowired
     private EmpLostServiceImpl empLostService;
 
+    @Autowired
+    private SalarysMapper salarysMapper;
     /**
      * 获取员工数量
      *

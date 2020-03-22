@@ -3,10 +3,13 @@
 <mapper namespace="com.oa.mapper.LeaveSalesMapper" >
   <resultMap id="BaseResultMap" type="com.oa.bean.LeaveSales" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="e_id" property="eId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="leave_time" property="leaveTime" jdbcType="VARCHAR" />
     <result column="start" property="start" jdbcType="VARCHAR" />
     <result column="end" property="end" jdbcType="VARCHAR" />
     <result column="leave_reason" property="leaveReason" jdbcType="VARCHAR" />
+    <result column="fail_message" property="failMessage" jdbcType="VARCHAR" />
     <result column="audti_state" property="audtiState" jdbcType="INTEGER" />
     <result column="sales_state" property="salesState" jdbcType="INTEGER" />
   </resultMap>
@@ -69,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, leave_time, start, end, leave_reason, audti_state, sales_state
+    id, e_id, name, leave_time, start, end, leave_reason, fail_message, audti_state, 
+    sales_state
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oa.bean.LeaveSalesExample" >
     select
@@ -102,11 +106,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.oa.bean.LeaveSales" >
-    insert into leave_sales (id, leave_time, start, 
-      end, leave_reason, audti_state, 
+    insert into leave_sales (id, e_id, name, 
+      leave_time, start, end, 
+      leave_reason, fail_message, audti_state, 
       sales_state)
-    values (#{id,jdbcType=INTEGER}, #{leaveTime,jdbcType=VARCHAR}, #{start,jdbcType=VARCHAR}, 
-      #{end,jdbcType=VARCHAR}, #{leaveReason,jdbcType=VARCHAR}, #{audtiState,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{leaveTime,jdbcType=VARCHAR}, #{start,jdbcType=VARCHAR}, #{end,jdbcType=VARCHAR}, 
+      #{leaveReason,jdbcType=VARCHAR}, #{failMessage,jdbcType=VARCHAR}, #{audtiState,jdbcType=INTEGER}, 
       #{salesState,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.LeaveSales" >
@@ -114,6 +120,12 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="eId != null" >
+        e_id,
+      </if>
+      <if test="name != null" >
+        name,
       </if>
       <if test="leaveTime != null" >
         leave_time,
@@ -127,6 +139,9 @@
       <if test="leaveReason != null" >
         leave_reason,
       </if>
+      <if test="failMessage != null" >
+        fail_message,
+      </if>
       <if test="audtiState != null" >
         audti_state,
       </if>
@@ -137,6 +152,12 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eId != null" >
+        #{eId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="leaveTime != null" >
         #{leaveTime,jdbcType=VARCHAR},
@@ -149,6 +170,9 @@
       </if>
       <if test="leaveReason != null" >
         #{leaveReason,jdbcType=VARCHAR},
+      </if>
+      <if test="failMessage != null" >
+        #{failMessage,jdbcType=VARCHAR},
       </if>
       <if test="audtiState != null" >
         #{audtiState,jdbcType=INTEGER},
@@ -170,6 +194,12 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.eId != null" >
+        e_id = #{record.eId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
       <if test="record.leaveTime != null" >
         leave_time = #{record.leaveTime,jdbcType=VARCHAR},
       </if>
@@ -181,6 +211,9 @@
       </if>
       <if test="record.leaveReason != null" >
         leave_reason = #{record.leaveReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.failMessage != null" >
+        fail_message = #{record.failMessage,jdbcType=VARCHAR},
       </if>
       <if test="record.audtiState != null" >
         audti_state = #{record.audtiState,jdbcType=INTEGER},
@@ -196,10 +229,13 @@
   <update id="updateByExample" parameterType="map" >
     update leave_sales
     set id = #{record.id,jdbcType=INTEGER},
+      e_id = #{record.eId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       leave_time = #{record.leaveTime,jdbcType=VARCHAR},
       start = #{record.start,jdbcType=VARCHAR},
       end = #{record.end,jdbcType=VARCHAR},
       leave_reason = #{record.leaveReason,jdbcType=VARCHAR},
+      fail_message = #{record.failMessage,jdbcType=VARCHAR},
       audti_state = #{record.audtiState,jdbcType=INTEGER},
       sales_state = #{record.salesState,jdbcType=INTEGER}
     <if test="_parameter != null" >
@@ -209,6 +245,12 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.oa.bean.LeaveSales" >
     update leave_sales
     <set >
+      <if test="eId != null" >
+        e_id = #{eId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="leaveTime != null" >
         leave_time = #{leaveTime,jdbcType=VARCHAR},
       </if>
@@ -221,6 +263,9 @@
       <if test="leaveReason != null" >
         leave_reason = #{leaveReason,jdbcType=VARCHAR},
       </if>
+      <if test="failMessage != null" >
+        fail_message = #{failMessage,jdbcType=VARCHAR},
+      </if>
       <if test="audtiState != null" >
         audti_state = #{audtiState,jdbcType=INTEGER},
       </if>
@@ -232,10 +277,13 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.oa.bean.LeaveSales" >
     update leave_sales
-    set leave_time = #{leaveTime,jdbcType=VARCHAR},
+    set e_id = #{eId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      leave_time = #{leaveTime,jdbcType=VARCHAR},
       start = #{start,jdbcType=VARCHAR},
       end = #{end,jdbcType=VARCHAR},
       leave_reason = #{leaveReason,jdbcType=VARCHAR},
+      fail_message = #{failMessage,jdbcType=VARCHAR},
       audti_state = #{audtiState,jdbcType=INTEGER},
       sales_state = #{salesState,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
