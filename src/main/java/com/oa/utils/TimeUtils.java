@@ -17,7 +17,7 @@ public class TimeUtils {
     public static String downTime = "18:00:00";
 
     public static Date getDate(String inWithTime){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");//注意月份是MM
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月份是MM
         Date date = new Date();
         try {
             date = simpleDateFormat.parse(inWithTime);
@@ -31,7 +31,10 @@ public class TimeUtils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
         return simpleDateFormat.format(date);
     }
-
+    public static String getInTime1(Date date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月份是MM
+        return simpleDateFormat.format(date);
+    }
     /**
      * @Description: judgeUpTime  判断上班是否迟到
      * @param: [str]

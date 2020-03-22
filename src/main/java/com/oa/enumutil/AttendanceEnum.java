@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 public enum AttendanceEnum {
-    YIDAKA(0,"打卡成功"),WDAKA(1,"未打卡"),DAKA2(2,"已打卡，但时间或地点不正确");
+    DAKASUCCESS(0,"打卡成功"),CHIDAO(1,"迟到"),ZAOTUI(2,"早退");
     private int code;
     private String message;
 

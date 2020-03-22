@@ -1,9 +1,7 @@
 package com.oa.service;
 
+import com.github.pagehelper.PageInfo;
 import com.oa.bean.LeaveSales;
-import com.oa.utils.CommonResult;
-
-import java.util.List;
 
 /**
  * @author CHTW
@@ -11,12 +9,69 @@ import java.util.List;
  */
 public interface LeaveSalesService {
     /**
-     * 获取请假信息人数(未审核)
-     *  @author CHTW
+     * 已请假员工列表
+     * @param nowpage
+     * @param size
+     * @param eId
+     * @param name
+     * @author CHTW
      * @return
      */
-    public List<LeaveSales> getCount();
+    PageInfo<LeaveSales> getLeave(int nowpage, int size, String eId, String name);
 
-    public List<LeaveSales> getXiaoJia();
+    /**
+     * 销假
+     * @param id
+     * @return
+     */
+    int selling(Integer id);
 
+    /**
+     * 获取已经销假列表
+     * @param nowpage
+     * @param size
+     * @param eId
+     * @param name
+     * @author CHTW
+     * @return
+     */
+    PageInfo<LeaveSales> getSelling(int nowpage, int size, String eId, String name);
+    /**
+     * 获取未审核
+     * @param nowpage
+     * @param size
+     * @param eId
+     * @param name
+     * @author CHTW
+     * @return
+     */
+    PageInfo<LeaveSales> getUnaudited(int nowpage, int size, String eId, String name);
+
+    /**
+     * 通过审核
+     * @param id
+     * @author CHTW
+     * @return
+     */
+    Integer passLeave(Integer id);
+
+    /**
+     * 未通过审核
+     * @param id
+     * @author CHTW
+     * @return
+     */
+    Integer notPassLeave(Integer id,String failMessage);
+
+
+    /**
+     * 获取未通过审核列表
+     * @param nowpage
+     * @param size
+     * @param eId
+     * @param name
+     * @author CHTW
+     * @return
+     */
+    PageInfo<LeaveSales> getNotPass(int nowpage, int size, String eId, String name);
 }

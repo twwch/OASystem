@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.*;
+import com.oa.mapper.AttendanceMapper;
 import com.oa.enumutil.EmpEnum;
 import com.oa.mapper.AttendanceMapper;
 import com.oa.mapper.EmployeesMapper;
@@ -13,6 +14,7 @@ import com.oa.utils.ResultEmp;
 import com.oa.utils.TimeUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -35,8 +37,8 @@ public class EmployeesServiceImpl implements EmployeesService {
     @Autowired
     private EmpLostServiceImpl empLostService;
 
+    @Autowired
     private SalarysMapper salarysMapper;
-
     /**
      * 获取员工数量
      *
@@ -189,13 +191,13 @@ public class EmployeesServiceImpl implements EmployeesService {
         PageHelper.startPage(nowpage, size);
         EmployeesExample example = new EmployeesExample();
         EmployeesExample.Criteria ctr = example.createCriteria();
-        if(!StringUtils.isEmpty(eId)) {
+        if (!StringUtils.isEmpty(eId)) {
             ctr.andEIdEqualTo(eId);
         }
-        if(!StringUtils.isEmpty(name)) {
+        if (!StringUtils.isEmpty(name)) {
             ctr.andNameEqualTo(name);
         }
-        if(!StringUtils.isEmpty(dept)) {
+        if (!StringUtils.isEmpty(dept)) {
             ctr.andDeptEqualTo(dept);
         }
         ctr.andGradeIdEqualTo(EmpEnum.ISADMIN.getCode());
@@ -250,6 +252,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      */
     @Override
     public int attendance(Attendance attendance) {
+        AttendanceExample attendanceExample = new AttendanceExample();
         int insert = attendanceMapper.insert(attendance);
         return insert;
     }
@@ -316,5 +319,4 @@ public class EmployeesServiceImpl implements EmployeesService {
         }
         return salarys1;
     }
-
 }

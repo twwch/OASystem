@@ -3,6 +3,10 @@ package com.oa.bean;
 public class LeaveSales {
     private Integer id;
 
+    private String eId;
+
+    private String name;
+
     private String leaveTime;
 
     private String start;
@@ -10,6 +14,8 @@ public class LeaveSales {
     private String end;
 
     private String leaveReason;
+
+    private String failMessage;
 
     private Integer audtiState;
 
@@ -21,6 +27,22 @@ public class LeaveSales {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String geteId() {
+        return eId;
+    }
+
+    public void seteId(String eId) {
+        this.eId = eId == null ? null : eId.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getLeaveTime() {
@@ -53,6 +75,14 @@ public class LeaveSales {
 
     public void setLeaveReason(String leaveReason) {
         this.leaveReason = leaveReason == null ? null : leaveReason.trim();
+    }
+
+    public String getFailMessage() {
+        return failMessage;
+    }
+
+    public void setFailMessage(String failMessage) {
+        this.failMessage = failMessage == null ? null : failMessage.trim();
     }
 
     public Integer getAudtiState() {

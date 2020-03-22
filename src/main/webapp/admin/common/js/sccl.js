@@ -469,21 +469,21 @@ $(function () {
                         "isHeader": "0",
                         "childMenus": ""
                     },
-                    /*{
+                    {
                         "id": "15",
-                        "name": "未打卡",
+                        "name": "未审批",
                         "parentId": "8",
-                        "url": "wei_daka.html",
+                        "url": "shenpi.html",
                         "icon": "",
                         "order": "1",
                         "isHeader": "0",
                         "childMenus": ""
-                    },*/
+                    },
                     {
                         "id": "16",
-                        "name": "请假审核",
+                        "name": "审核未通过",
                         "parentId": "8",
-                        "url": "yi_qinjia.html",
+                        "url": "shenpi_notpass.html",
                         "icon": "",
                         "order": "1",
                         "isHeader": "0",
@@ -491,7 +491,7 @@ $(function () {
                     },
                     {
                         "id": "17",
-                        "name": "已请假",
+                        "name": "审核通过",
                         "parentId": "8",
                         "url": "yi_qinjia.html",
                         "icon": "",
