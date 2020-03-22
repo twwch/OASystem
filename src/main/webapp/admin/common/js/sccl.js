@@ -461,7 +461,7 @@ $(function () {
                 "childMenus": [
                     {
                         "id": "14",
-                        "name": "已打卡",
+                        "name": "打卡成功",
                         "parentId": "8",
                         "url": "yi_daka.html",
                         "icon": "",
