@@ -2,6 +2,13 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+    <!-- 用于输出日志 log4j:LOG4J SLF4J -->
+    <settings>
+        <!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+
     <!-- 当我们写完一个接口对应的xml的时候 需要在主配置文件中 配置一下 整合Spring以后就不用写mapper了 -->
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageHelper">
@@ -9,4 +16,7 @@
             <property name="dialect" value="mysql" />
         </plugin>
     </plugins>
+
+
+
 </configuration>

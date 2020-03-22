@@ -1,10 +1,16 @@
 package com.oa.controller;
 
+import cn.hutool.crypto.SecureUtil;
 import com.github.pagehelper.PageInfo;
+import com.oa.bean.Attendance;
 import com.oa.bean.Employees;
+import com.oa.bean.PubIp;
+import com.oa.bean.Salarys;
 import com.oa.enumutil.EmpEnum;
 import com.oa.enumutil.Result;
+import com.oa.service.EmployeesService;
 import com.oa.service.impl.EmployeesServiceImpl;
+import com.oa.service.impl.IpServiceImpl;
 import com.oa.utils.CommonResult;
 import com.oa.utils.ResultEmp;
 import com.oa.utils.TimeUtils;
@@ -15,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.*;
 
 /**

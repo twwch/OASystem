@@ -3,11 +3,11 @@ package com.oa.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.oa.bean.EmpLost;
-import com.oa.bean.Employees;
-import com.oa.bean.EmployeesExample;
+import com.oa.bean.*;
 import com.oa.enumutil.EmpEnum;
+import com.oa.mapper.AttendanceMapper;
 import com.oa.mapper.EmployeesMapper;
+import com.oa.mapper.SalarysMapper;
 import com.oa.service.EmployeesService;
 import com.oa.utils.ResultEmp;
 import com.oa.utils.TimeUtils;
@@ -250,7 +250,6 @@ public class EmployeesServiceImpl implements EmployeesService {
      */
     @Override
     public int attendance(Attendance attendance) {
-        AttendanceExample attendanceExample = new AttendanceExample();
         int insert = attendanceMapper.insert(attendance);
         return insert;
     }
@@ -276,6 +275,7 @@ public class EmployeesServiceImpl implements EmployeesService {
      * @param ePassword
      * @return
      */
+    @Override
     public int adminLogin(String eId, String ePassword) {
         EmployeesExample example = new EmployeesExample();
         EmployeesExample.Criteria ctr = example.createCriteria();
@@ -299,6 +299,11 @@ public class EmployeesServiceImpl implements EmployeesService {
         SalarysExample.Criteria criteria = salarysExample.createCriteria();
         criteria.andEIdEqualTo(salarys.geteId());
         List<Salarys> salarys1 = salarysMapper.selectByExample(salarysExample);
+
+        System.out.println(salarys1.toString());
+        System.out.println(salarys1.size());
+
+
         for (Salarys s : salarys1) {
             s.setSerialNum(null);
             s.setBasicWage(null);
@@ -311,4 +316,5 @@ public class EmployeesServiceImpl implements EmployeesService {
         }
         return salarys1;
     }
+
 }
