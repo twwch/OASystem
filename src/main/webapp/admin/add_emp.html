@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link href="common/add/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="common/add/style.css"/>
+    <link href="common/add/codemirror.css" rel="stylesheet">
+    <link rel="stylesheet" href="common/add/ace.min.css"/>
+    <link rel="stylesheet" href="common/add/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"
+          href="easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css"
+          href="easyui/demo/demo.css">
+    <script type="text/javascript"
+            src="common/lib/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript"
+            src="easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="common/js/emp.js"></script>
+    <title>添加员工</title>
+
+</head>
+
+<body>
+<form id="add">
+    <div class="margin clearfix">
+        <div class="stystems_style">
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div id="home" class="tab-pane active">
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>工号：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="eId" placeholder="填写工号" value=""
+                                                         class="col-xs-10 "></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>姓名：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="name" placeholder="填写姓名" value=""
+                                                         class="col-xs-10 "></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>部门：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="dept" placeholder="填写部门" value=""
+                                                         class="col-xs-10"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>电话：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="phoneNum" placeholder="填写电话" value=""
+                                                         class="col-xs-10"></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>职位：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="position" placeholder="填写职位" value=""
+                                                         class="col-xs-10 "></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>上岗时间：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="inWithTime" placeholder="填写上岗时间 2019-08-09"
+                                                         class="col-xs-10 "></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>身份证号：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="idCardNo" placeholder="填写身份证号码" value=""
+                                                         class="col-xs-10 "></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>银行账户：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="bankAccount" placeholder="填写银行账户" value=""
+                                                         class="col-xs-10 "></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>邮箱地址：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="email" placeholder="填写邮箱地址" value=""
+                                                         class="col-xs-10 "></div>
+                        </div>
+                        <div class="form-group"><label class="col-sm-2 control-label no-padding-right"><i>*</i>基础薪资：
+                        </label>
+                            <div class="col-sm-9"><input type="text" name="lowSalary" placeholder="基础薪资" value=""
+                                                         class="col-xs-10 "></div>
+                        </div>
+
+                        <div class="Button_operation">
+                            <button id="article_save_submit" class="btn btn-primary radius"
+                                    type="button"><i class="fa fa-save "></i>&nbsp;保存
+                            </button>
+                            <!--<button onclick="" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+</body>
+</html>
+<script type="text/javascript">
+    $("#article_save_submit").click(function () {
+        if(empIsNotEmpty('add')) {
+            $.messager.confirm("操作提示", "您确定要添加该员工信息吗？", function (data) {
+                if (data) {
+                    //console.log("添加添加")
+                    var row = $('#add').serialize()
+                    $.get("/OASystem/empinfo/addemp", row, function (data) {
+                        if (data.code == 200) {
+                            $('#add')[0].reset();
+                            $.messager.alert("操作提示", "添加成功！", "success");
+                        } else {
+                            $.messager.alert("操作提示", "添加失败！", "error");
+                        }
+                    });
+                } else {
+                    console.log("取消")
+                }
+            })
+        }
+    })
+</script>
