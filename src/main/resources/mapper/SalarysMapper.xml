@@ -12,6 +12,7 @@
     <result column="issue_time" property="issueTime" jdbcType="TIMESTAMP" />
     <result column="account_other" property="accountOther" jdbcType="VARCHAR" />
     <result column="salary" property="salary" jdbcType="DOUBLE" />
+    <result column="month" property="month" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, e_id, serial_num, basic_wage, royalty, work_days, leave_early_days, issue_time, 
-    account_other, salary
+    account_other, salary, month
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oa.bean.SalarysExample" >
     select
@@ -109,11 +110,11 @@
     insert into salarys (id, e_id, serial_num, 
       basic_wage, royalty, work_days, 
       leave_early_days, issue_time, account_other, 
-      salary)
+      salary, month)
     values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=VARCHAR}, #{serialNum,jdbcType=VARCHAR}, 
       #{basicWage,jdbcType=VARCHAR}, #{royalty,jdbcType=DOUBLE}, #{workDays,jdbcType=INTEGER}, 
       #{leaveEarlyDays,jdbcType=INTEGER}, #{issueTime,jdbcType=TIMESTAMP}, #{accountOther,jdbcType=VARCHAR}, 
-      #{salary,jdbcType=DOUBLE})
+      #{salary,jdbcType=DOUBLE}, #{month,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.oa.bean.Salarys" >
     insert into salarys
@@ -148,6 +149,9 @@
       <if test="salary != null" >
         salary,
       </if>
+      <if test="month != null" >
+        month,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -179,6 +183,9 @@
       </if>
       <if test="salary != null" >
         #{salary,jdbcType=DOUBLE},
+      </if>
+      <if test="month != null" >
+        #{month,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -221,6 +228,9 @@
       <if test="record.salary != null" >
         salary = #{record.salary,jdbcType=DOUBLE},
       </if>
+      <if test="record.month != null" >
+        month = #{record.month,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,7 +247,8 @@
       leave_early_days = #{record.leaveEarlyDays,jdbcType=INTEGER},
       issue_time = #{record.issueTime,jdbcType=TIMESTAMP},
       account_other = #{record.accountOther,jdbcType=VARCHAR},
-      salary = #{record.salary,jdbcType=DOUBLE}
+      salary = #{record.salary,jdbcType=DOUBLE},
+      month = #{record.month,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +283,9 @@
       <if test="salary != null" >
         salary = #{salary,jdbcType=DOUBLE},
       </if>
+      <if test="month != null" >
+        month = #{month,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -285,7 +299,8 @@
       leave_early_days = #{leaveEarlyDays,jdbcType=INTEGER},
       issue_time = #{issueTime,jdbcType=TIMESTAMP},
       account_other = #{accountOther,jdbcType=VARCHAR},
-      salary = #{salary,jdbcType=DOUBLE}
+      salary = #{salary,jdbcType=DOUBLE},
+      month = #{month,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

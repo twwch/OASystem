@@ -19,7 +19,7 @@
 </head>
 
 <body>
-<div style="margin: 20px 0;"></div>
+<div style="margin: -12px 0;"></div>
 <table id="dg" title="用 户 管 理" style="width: 100%;"
        data-options="rownumbers:true,singleSelect:true,pagination:true,
 				onClickRow: onClickRow,url:'/OASystem/empinfo/easyuiGetDataAdmin',method:'get',toolbar:'#tb'">
@@ -27,7 +27,7 @@
     <tr>
         <th style="width: 10%" data-options="field:'eId',align:'center'">工 号</th>
         <th style="width: 10%" data-options="field:'name',align:'center'">姓名</th>
-        <th style="width: 8%" data-options="field:'dept',align:'center'">部门</th>
+        <th style="width: 10%" data-options="field:'dept',align:'center'">部门</th>
         <th style="width: 15%" data-options="field:'phoneNum',width:100,align:'center'">电话</th>
         <!--<th style="width: 20%" data-options="field:'idCardNo',align:'center'">身份证号</th>
         <th style="width: 20%" data-options="field:'bankAccount',align:'center'">银行账户</th>-->
@@ -90,7 +90,7 @@
         var row = $('#dg').datagrid('getSelected');
         if (row != null) {
             var id = row.id;
-            $.messager.confirm("操作提示", "您确定要删除该员工信息吗？", function (data) {
+            $.messager.confirm("操作提示", "您确定要取消该员工的管理员权限吗？", function (data) {
                 if(data) {
                     $.get("/OASystem/empinfo/removeAdmin", "id=" + id, function (data) {
                         if (data.code == 200) {

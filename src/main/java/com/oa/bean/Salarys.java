@@ -23,6 +23,8 @@ public class Salarys {
 
     private Double salary;
 
+    private String month;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class Salarys {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month == null ? null : month.trim();
     }
 }

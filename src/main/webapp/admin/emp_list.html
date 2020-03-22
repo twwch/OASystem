@@ -16,10 +16,11 @@
             src="easyui/jquery.min.js"></script>
     <script type="text/javascript"
             src="easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="common/js/emp.js"></script>
 </head>
 
 <body>
-<div style="margin: 20px 0;"></div>
+<div style="margin: -12px 0;"></div>
 <table id="dg" title="用 户 管 理" style="width: 100%;"
        data-options="rownumbers:true,singleSelect:true,pagination:true,
 				onClickRow: onClickRow,url:'/OASystem/empinfo/easyuiGetData',method:'get',toolbar:'#tb'">
@@ -33,7 +34,7 @@
         <th style="width: 20%" data-options="field:'bankAccount',align:'center'">银行账户</th>
         <th style="width: 20%" data-options="field:'email',align:'center'">邮箱</th>
         <th style="width: 8%" data-options="field:'lowSalary',align:'center'">基础薪资</th>
-        <th style="width: 20%" data-options="field:'contractNum',align:'center'">合同编号</th>
+        <th style="width: 30%" data-options="field:'contractNum',align:'center'">合同编号</th>
         <th style="width: 15%" data-options="field:'inWithTime',align:'center'">入职时间</th>
     </tr>
     </thead>
@@ -58,7 +59,7 @@
 </div>
 
 
-<div id="w" class="easyui-window" title="编辑数据" data-options="iconCls:'icon-save'"
+<div id="w" class="easyui-window" title="添加数据" data-options="iconCls:'icon-save'"
      style="width:700px;height:360px;padding:5px">
     <div class="easyui-layout" data-options="fit:true">
         <div id="message" data-options="region:'center'" style="padding:10px;font-size: 16px;">
@@ -82,7 +83,7 @@
                                                                      data-options="prompt:'Enter position'"
                                                                      style="width:30%;height:32px">
                 <label class="add-e">上岗时间 : </label><input name="inWithTime" class="easyui-textbox"
-                                                           data-options="prompt:'Enter inTime'"
+                                                           data-options="prompt:'Enter inTime 2020-12-20'"
                                                            style="width:30%;height:32px"><br>
                 <br>
                 <div style="margin-top: 10px;"></div>
@@ -95,7 +96,7 @@
                 <br>
                 <div style="margin-top: 10px;"></div>
                 <label class="add-e">邮箱地址 : </label><input name="email" class="easyui-textbox"
-                                                           data-options="prompt:'Enter email'"
+                                                           data-options="prompt:'Enter email',validType:'email'"
                                                            style="width:30%;height:32px">
                 <label class="add-e">基础薪资 : </label><input name="lowSalary" class="easyui-textbox"
                                                            data-options="prompt:'Enter lowSalary'"
@@ -179,44 +180,7 @@
         $("#eAccount").next().hide();
         $('#w').window('close');
         $('#w1').window('close');
-        var pager = $('#dg').datagrid().datagrid('getPager'); // get the pager of datagrid
-
-        /* pager.pagination({
-             buttons:[{
-                 iconCls:'icon-remove',
-                 handler:function(){
-                     var row = $('#dg').datagrid('getSelected');
-                     if(row!=null){
-                         $.messager.confirm("操作提示", "您确定要删除该员工信息吗？", function (data) {
-                             if (data) {
-                                 var eId = row.eId;
-                                 console.log(eId)
-                                 $.post("/OASystem/empinfo/dele","eId="+eId,function(data){
-                                     if(data.code == 200){
-                                         removeit(row)
-                                     }else{
-                                         $.messager.alert("操作提示", "操作失败！","error");
-                                     }
-                                 });
-                             }
-                         });
-                     }else{
-                         $.messager.alert("操作提示", "操作失败！请至少选择一条！","error");
-                     }
-                 }
-
-             },{
-                 iconCls:'icon-edit',
-                 handler:function(){
-                     $('#w').window('open')
-                 }
-             },{
-                 iconCls:'icon-add',
-                 handler:function(){
-                     $('#w').window('open')
-                 }
-             }]
-         });*/
+        var pager = $('#dg').datagrid().datagrid('getPager');
     })
 
     function wcolse() {
@@ -228,14 +192,15 @@
     }
 
     function add() {
-        //console.log("添加添加")
-        var row = $('#add').serialize()
-        $.get("/OASystem/empinfo/addemp", row, function (data) {
-            if (data.code == 200) {
-                $.messager.alert("操作提示", "添加成功！", "success");
-                wcolse();
-            }
-        });
+        if (empIsNotEmpty('add')) {
+            var row = $('#add').serialize()
+            $.get("/OASystem/empinfo/addemp", row, function (data) {
+                if (data.code == 200) {
+                    $.messager.alert("操作提示", "添加成功！", "success");
+                    wcolse();
+                }
+            });
+        }
     }
 
     var editIndex = undefined;
@@ -256,9 +221,9 @@
         }
     }
 
-    function onClickRow(index) {
-        if (editIndex != index) {
-            if (endEditing()) {
+    function onClickRow(index){
+        if (editIndex != index){
+            if (endEditing()){
                 $('#dg').datagrid('selectRow', index)
                     .datagrid('beginEdit', index);
                 editIndex = index;
@@ -269,7 +234,7 @@
     }
 
     function append() {
-        $('#add')[0].reset();
+        $("#add").form('clear');
         $('#w').window('open');
     }
 
@@ -303,42 +268,37 @@
     }
 
     function updateemp() {
-        $.messager.confirm("操作提示", "您确定要修改该员工信息吗？", function (data) {
-            if (data) {
-                var emp = $('#edit').serialize()
-                console.log(emp)
-                $.ajax({
-                    type: 'POST',
-                    url: '/OASystem/empinfo/update',
-                    //async:true,
-                    //contentType:'application/json;charset=utf-8',
-                    <!--将输入数据传到Controller-->
-                    data: $('#edit').serialize(),
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.code == 200) {
-                            $.messager.alert("操作提示", "修改成功！", "success");
-                            wcolse1();
-                        } else {
-                            $.messager.alert("操作提示", "操作失败！", "error");
-                        }
-                    },
-                    error: function (msg) {
-                        $.messager.alert("操作提示", "服务器异常！", "error");
+        if (empIsNotEmpty('save')) {
+            $.messager.confirm("操作提示", "您确定要修改该员工信息吗？", function (data) {
+                if (data) {
+                    var emp = $('#edit').serialize()
+                    console.log(emp)
+                    $.ajax({
+                        type: 'POST',
+                        url: '/OASystem/empinfo/update',
+                        //async:true,
+                        //contentType:'application/json;charset=utf-8',
+                        <!--将输入数据传到Controller-->
+                        data: $('#edit').serialize(),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.code == 200) {
+                                $.messager.alert("操作提示", "修改成功！", "success");
+                                wcolse1();
+                            } else {
+                                $.messager.alert("操作提示", "操作失败！", "error");
+                            }
+                        },
+                        error: function (msg) {
+                            $.messager.alert("操作提示", "服务器异常！", "error");
 
-                    }
-                });
-            } else {
-                console.log("关闭")
-            }
-            /* $.get("/OASystem/empinfo/update", "emp=" + emp, function (data) {
-                 if (data.code == 200) {
-                     $.messager.alert("操作提示", "修改成功！", "success");
-                 } else {
-                     $.messager.alert("操作提示", "操作失败！", "error");
-                 }
-             })*/
-        })
+                        }
+                    });
+                } else {
+                    console.log("关闭")
+                }
+            })
+        }
     }
 
     //
@@ -392,7 +352,6 @@
             $.messager.alert("操作提示", "操作失败！请至少选择一条！", "error");
         }
     }
-
     $("#standardQueryBtn").click(function () {
         //$("#dg") 获取easui的数据表格   datagrid("load" 重新加载表格 后面的几个数据是请求的参数
         $("#dg").datagrid("load", {
@@ -400,7 +359,6 @@
             "eId": $("#emp_eId").val(),
             "dept": $("#emp_dept").val()
         });
-
     });
 </script>
 </body>
