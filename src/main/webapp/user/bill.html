@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bitter Mobile Template</title>
+    <title>OA管理系统</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
     <meta name="description" content="Bitter Mobile Template">
@@ -121,6 +121,13 @@
             if (r != null) return unescape(r[2]); return null; //返回参数值
         }
 
+        function time(time) {
+            var date = new Date(time);
+            Y = date.getFullYear() + '-';
+            M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            D = date.getDate() + ' ';
+            return Y+M+D
+        }
 
         $(function () {
             $.ajax({
@@ -136,7 +143,7 @@
                     $("#royalty").text(data.data.royalty+'元');
                     $("#workDays").text(data.data.workDays+'天');
                     $("#leaveEarlyDays").text(data.data.leaveEarlyDays+'次');
-                    $("#issueTime").text(data.data.issueTime);
+                    $("#issueTime").text(time(data.data.issueTime));
                     $("#accountOther").text(data.data.accountOther);
                     $("#month").text(data.data.month);
                     $("#salary").text(data.data.salary+'元');
