@@ -31,6 +31,7 @@ public class LeaveSalesController {
     @Autowired
     private LeaveSalesServiceImpl leaveSalesService;
 
+    @Autowired
     private EmployeesServiceImpl employeesService;
 
     /**
@@ -171,7 +172,10 @@ public class LeaveSalesController {
     @RequestMapping(value = "/leave")
     public CommonResult leave(LeaveSales leaveSales, HttpSession session){
         leaveSales.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
-        Employees message = employeesService.getMessage((Employees) session.getAttribute(EmployeesService.SESSION_EID));
+        Employees emp = new Employees();
+        emp.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
+        //System.out.println(emp.geteId());
+        Employees message = employeesService.getEmpById(emp.geteId());
         leaveSales.setName(message.getName());
         //初始为未审核
         leaveSales.setAudtiState(0);
