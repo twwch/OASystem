@@ -461,7 +461,7 @@ $(function () {
                 "childMenus": [
                     {
                         "id": "14",
-                        "name": "打卡成功",
+                        "name": "打卡管理",
                         "parentId": "8",
                         "url": "yi_daka.html",
                         "icon": "",
@@ -536,16 +536,6 @@ $(function () {
                         "name": "已发放",
                         "parentId": "9",
                         "url": "yi_fafang.html",
-                        "icon": "",
-                        "order": "1",
-                        "isHeader": "0",
-                        "childMenus": ""
-                    }
-                    , {
-                        "id": "25",
-                        "name": "未发放",
-                        "parentId": "9",
-                        "url": "wei_fafang.html",
                         "icon": "",
                         "order": "1",
                         "isHeader": "0",

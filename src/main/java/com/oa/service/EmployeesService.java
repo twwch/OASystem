@@ -67,4 +67,8 @@ public interface EmployeesService {
      * @return
      */
     List<Salarys> salaryList(Salarys salarys);
+
+    List<Employees> getAll();
+
+    Employees getEmpById(String eId);
 }

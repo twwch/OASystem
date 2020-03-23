@@ -1,192 +1,82 @@
 <!DOCTYPE html>
-<html>
-
+<html style="height: 100%">
 <head>
-    <meta charset="UTF-8">
-    <title>发布帖子</title>
-    <script type="text/javascript"
-            src="common/lib/jquery-1.9.0.min.js"></script>
+    <meta charset="utf-8">
 </head>
-<style>
-    .article_push_time {
-        font-size: 14px;
-        /*padding-left: 5px;*/
-    }
-
-    .main_title {
-        font-size: 14px;
-        padding: 15px 20px;
-        background-color: #EEEEEE;
-        border-radius: 6px 6px 0 0;
-        position: relative;
-        margin-left: 20px;
-        margin-right: 34px;
-        margin-bottom: 20px;
-    }
-
-    .plan_item {
-        font-size: 14px;
-        padding: 15px 20px;
-        background-color: gray;
-        border-radius: 6px 6px 0 0;
-        position: relative;
-        width: 661px;
-        float: left;
-        border: 1px;
-        margin-right: 34px;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
-    }
-
-    .sc_plan_title {
-        font-size: 24px;
-        color: #555;
-        font-weight: 700;
-        line-height: 76px;
-        margin-top: 5px;
-        padding: 5px 24px;
-        background-color: #f5f4f3;
-        margin-bottom: 32px;
-    }
-
-    .main_title_bread {
-        margin: 0 10px;
-        font-size: 18px;
-    }
-
-    .sc_stage_current_item {
-        background: #e36b3a;
-    }
-
-    .border-radius-6 {
-        border-radius: 6px;
-    }
-
-    .menu_wrap li {
-        display: block;
-        text-align: right;
-        color: #555;
-        padding: 12px 10px 12px 0;
-    }
-
-    .pro_day {
-        display: block;
-        font-size: 24px;
-        font-weight: 700;
-    }
-
-    .pro_message {
-        display: block;
-        font-size: 14px;
-    }
-
-    .current_li {
-        border: 2px solid #f8996d;
-        border-radius: 6px;
-        color: #f8996d;
-    }
-
-    .btn_wrap {
-        margin-top: 20px;
-        padding-bottom: 30px;
-    }
-
-    .content-main {
-        margin-top: 20px;
-        padding: 20px 20px;
-    }
-
-    .divmargin {
-        margin: 20px 0px 10px 0px;
-    }
-</style>
-
-<body style="background-color: #eeeeee;">
-<!-- Header -->
-
-<!-- END header -->
-<!--<button style="margin-left: 20px;">发帖</button>-->
-<div class="main_title" style="margin-top: 20px;">
-
-    <div class="plan_item">
-        <a class="back_all" style="font-size: 16px; color: #fff;" href="#">个人信息</a>
-        <a class="back_all" style="font-size: 16px; color: #fff;position:absolute; ;right: 20px" href="updatepwd.html">修改密码</a>
-    </div>
-    <div>
-
-        <!-- -->
-        <div class="content" style="background-color: #FFFFFE; width: 700px;">
-            <div class="content-main">
-                <FORM id="updateUser">
-                    <BR>
-                    <div class="divmargin">
-                        姓&emsp;名 <INPUT id="xingming" class="textInput"
-                                        style="height: 28px; width: 500PX;padding-left:10px;" maxLength="150" size=30
-                                        type=text name="yonghxm"> <BR>
-                    </div>
-                    <div class="divmargin">
-                        登录名 <INPUT id="name" class="textInput"
-                                   style="height: 28px; width: 500PX;padding-left:10px;" maxLength="150" size=30
-                                   type=text name="yonghzh"> <BR>
-                    </div>
-
-                    <INPUT style="border-radius: 4px; width: 90px; height: 35px; background-color: #ec6817; color: #000000;"
-                           id="submitBtn" value="保存修改" type="button">
-                    <!-- <input type="submit" value="保存修改"> -->
-                </FORM>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--清除的float效果 -->
-<div style="clear: both;"></div>
-<!-- Footer -->
-
-<!-- END Footer -->
-</body>
-<script>
-    /*$(function() {
-        //发送ajax请求获取用户数据
-        //ajax发送  会不会携带cookie？
-        $.get("/DzBank/yongh/getinfo", null, function(data) {
-            if (data.code == 1) {
-                //填充数据
-                var yongh = data.data;
-                console.log(yongh)
-                $("#name").val(yongh.yonghzh);
-                $("#xingming").val(yongh.yonghxm);
+<body style="height: 100%; margin: 0">
+<div id="container" style="width: 80%;margin: auto;height: 90%;padding-top: 30px;"></div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+<script type="text/javascript"
+        src="common/lib/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    var now = new Date(); //当前日期
+    var year = now.getFullYear();
+    var nowMonth = now.getMonth(); //当前月
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var chartDATA = "";
+    $.ajax({
+        type: 'GET',
+        url: '/OASystem/myChart/data',
+        async:false,
+        data: "",
+        dataType: 'json',
+        success: function (data) {
+            if (data.code == 200) {
+                chartDATA = data.data;
+            } else {
+                alert("操作失败！");
             }
-        });
-    });*/
-</script>
-<script>
-    $(document).ready(function () {
-        /*$("#submitBtn").click(function(){
-            var truthBeTold = window.confirm("确认修改吗?");
-            if(truthBeTold){
-                $.ajax({
-                    type:"post",//请求类型
-                    url:"/DzBank/yongh/updateUser",//请求路径
-                    dataType:"json",//响应的数据类型
-                    data:$("#updateUser").serialize(),
-                    success:function suc(dt){//响应成功后的回调函数
-                        if (dt.code == 1) {
-                            //alert("修改成功")
-                            //填充数据
-                            var yongh = dt.data;
-                            console.log(dt)
-                            $("#name").val(yongh.yonghzh);
-                            $("#xingming").val(yongh.yonghxm);
-                        }
-                    },
-                    errer:function err(){
-                        alert("修改失败")
-                    }
-                });
-            }else{
-                location.href="/DzBank/page/home.html";
-            }
-        });*/
+        },
+        error: function (msg) {
+            alert("服务器异常！");
+
+        }
     });
+    option = null;
+    option = {
+        title: {
+            text: 'XX公司员工出勤情况',
+            subtext: year + ' 年 ' +(nowMonth+1) + ' 月',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['早退', '迟到', '打卡成功']
+        },
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: chartDATA,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
 </script>
+</body>
 </html>

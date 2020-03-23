@@ -1,6 +1,5 @@
 package com.oa.controller;
 
-import com.oa.bean.Dept;
 import com.oa.bean.ResultDept;
 import com.oa.enumutil.Result;
 import com.oa.service.impl.DeptServiceImpl;
@@ -25,6 +24,7 @@ public class DeptController {
 
     /**
      * 获取部门信息
+     * 已废除的功能
      * @author CHTW
      * @return
      */

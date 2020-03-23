@@ -102,8 +102,8 @@ public class EmployeesServiceImpl implements EmployeesService {
 
         employees.setInTime(TimeUtils.getDate(inTime));
         // UUID uuid = UUID.randomUUID();
-        employees.seteAccount(IdUtil.simpleUUID());
-
+        employees.seteAccount(IdUtil.simpleUUID());//随机账号
+        employees.setContractNum(IdUtil.simpleUUID());//合同编号
         //System.out.println(employees);
         int i = employeesMapper.insertSelective(employees);
         return i;
@@ -281,6 +281,7 @@ public class EmployeesServiceImpl implements EmployeesService {
         EmployeesExample.Criteria ctr = example.createCriteria();
         ctr.andEIdEqualTo(eId);
         ctr.andEPasswordEqualTo(ePassword);
+        ctr.andGradeIdEqualTo(EmpEnum.ISADMIN.getCode());
         List<Employees> employeesList = employeesMapper.selectByExample(example);
         return employeesList.size();
     }
@@ -310,5 +311,24 @@ public class EmployeesServiceImpl implements EmployeesService {
             s.setAccountOther(null);
         }
         return salarys1;
+    }
+
+    /**
+     * 获取所有员工
+     * @author CHTW
+     * @return
+     */
+    @Override
+    public List<Employees> getAll() {
+        return employeesMapper.selectByExample(new EmployeesExample());
+    }
+
+    @Override
+    public Employees getEmpById(String eId) {
+        EmployeesExample employeesExample = new EmployeesExample();
+        EmployeesExample.Criteria criteria = employeesExample.createCriteria();
+        criteria.andEIdEqualTo(eId);
+        List<Employees> employeesList = employeesMapper.selectByExample(employeesExample);
+        return employeesList.get(0);
     }
 }
