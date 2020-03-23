@@ -93,6 +93,12 @@
                 $.get("/OASystem/leave/notpassleave", row, function (data) {
                     if (data.code == 200) {
                         $.messager.alert("操作提示", "审核未通过！提醒员工查看反馈！", "success");
+                        if (editIndex == undefined) {
+                            return
+                        }
+                        $('#dg').datagrid('cancelEdit', editIndex)
+                            .datagrid('deleteRow', editIndex);
+                        editIndex = undefined;
                         wcolse();
                     }
                 });

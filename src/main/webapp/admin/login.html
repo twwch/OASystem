@@ -148,8 +148,10 @@
             ajax("/OASystem/empinfo/admin/login",params,"json",function(data){
                 if(data.code==200){
                     window.location.href="index.html";
+                }else if(data.code == 500){
+                    layer.msg('登录失败！您可能还不是管理员用户！或者请检查账号密码是否正确！');
                 }else{
-                    layer.msg('登录失败');
+                    layer.msg('服务器故障！！');
                 }
             })
             //	ajax(url,params,"json","")

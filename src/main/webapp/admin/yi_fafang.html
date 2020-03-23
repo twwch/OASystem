@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>假期审批</title>
+    <title>薪资管理</title>
     <link rel="stylesheet" type="text/css"
           href="easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css"
@@ -21,39 +21,58 @@
 
 <body>
 <div style="margin: -12px 0;"></div>
-<table id="dg" title="假 期 审 批(未 通 过 审 核)" style="width: 100%;"
+<table id="dg" title="用 户 管 理" style="width: 100%;"
        data-options="rownumbers:true,singleSelect:true,pagination:true,
-				onClickRow: onClickRow,url:'/OASystem/leave/getnotpass',method:'get',toolbar:'#tb',nowrap:false">
+				onClickRow: onClickRow,url:'/OASystem/salarys/easyuiGetData',method:'get',toolbar:'#tb'">
     <thead>
     <tr>
-        <th style="width: 10%" data-options="field:'eId',align:'center'">工号</th>
+        <th style="width: 10%" data-options="field:'eId',align:'center'">工 号</th>
         <th style="width: 10%" data-options="field:'name',align:'center'">姓名</th>
-        <th style="width: 15%" data-options="field:'leaveTime',align:'center'">申请时间</th>
-        <th style="width: 15%" data-options="field:'start',width:100,align:'center'">假期开始时间</th>
-        <th style="width: 15%" data-options="field:'end',align:'center'">假期结束时间</th>
-        <th style="width: 35%;padding-left: 10px;padding-right: 10px;"
-            data-options="field:'leaveReason',align:'center'">申假原因
-        </th>
-        <th style="width: 35%;padding-left: 10px;padding-right: 10px;"
-            data-options="field:'failMessage',align:'center'">未通过原因
-        </th>
+        <th style="width: 10%" data-options="field:'basicWage',align:'center'">基础工资</th>
+        <th style="width: 10%" data-options="field:'royalty',align:'center'">提成</th>
+        <th style="width: 10%" data-options="field:'salary',align:'center'">到账薪资</th>
+        <th style="width: 10%" data-options="field:'workDays',align:'center'">有效工作天数</th>
+        <th style="width: 10%" data-options="field:'leaveEarlyDays',align:'center'">早退或迟到天数</th>
+        <th style="width: 15%" data-options="field:'issueWithTime',align:'center'">工资发放日期</th>
+        <th style="width: 20%" data-options="field:'accountOther',align:'center'">对方账号</th>
+        <th style="width: 15%" data-options="field:'month',align:'center'">薪资月份</th>
     </tr>
     </thead>
 </table>
-<div id="tb" style="font-size: 17px;height: 50px;padding-top: 9px;">
+<div id="tb" style="font-size: 17px;height: 70px;padding-top: 9px;">
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-lock',plain:true"
+       onclick="sendMoney()">发工资(模拟发工资，实际上管理员无此权限)</a>
+
+    <br>
     <div style="margin-top: 10px">
-        &emsp;姓名&emsp;<input style="font-size: 15px;" type="text" name="standard.name" id="emp_name"/>&emsp;&emsp;
-        工号&emsp;<input style="font-size: 15px" type="text" name="standard.minWeight" id="emp_eId"/>&emsp;&emsp;
+        &emsp;工号&emsp;<input style="font-size: 15px" type="text" name="standard.minWeight" id="emp_eId"/>&emsp;&emsp;
         <a id="standardQueryBtn" href="javascript:void(0)"
            class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
     </div>
 </div>
+
 
 <script type="text/javascript">
     $(function () {
         var pager = $('#dg').datagrid().datagrid('getPager');
     })
 
+    //模拟发工资
+    function sendMoney() {
+        $.messager.confirm("操作提示", "此操作不可逆！！您确定要模拟发工资吗？", function (data) {
+            if (data) {
+                $.get("/OASystem/salarys/sendMoney", "", function (data) {
+                    if(data.code == 200){
+                        $.messager.alert("操作提示", "操作成功！", "success");
+                    }else{
+                        $.messager.alert("操作提示", data.message, "success");
+                    }
+                })
+            }else{
+                console.log("取消")
+            }
+        })
+    }
 
     var editIndex = undefined;
 
@@ -73,9 +92,9 @@
         }
     }
 
-    function onClickRow(index) {
-        if (editIndex != index) {
-            if (endEditing()) {
+    function onClickRow(index){
+        if (editIndex != index){
+            if (endEditing()){
                 $('#dg').datagrid('selectRow', index)
                     .datagrid('beginEdit', index);
                 editIndex = index;
@@ -88,7 +107,6 @@
     $("#standardQueryBtn").click(function () {
         //$("#dg") 获取easui的数据表格   datagrid("load" 重新加载表格 后面的几个数据是请求的参数
         $("#dg").datagrid("load", {
-            "name": $("#emp_name").val(),
             "eId": $("#emp_eId").val()
         });
     });

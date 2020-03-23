@@ -7,6 +7,8 @@ import com.oa.bean.*;
 import com.oa.mapper.*;
 import com.oa.enumutil.EmpEnum;
 import com.oa.mapper.AttendanceMapper;
+import com.oa.mapper.EmployeesMapper;
+import com.oa.mapper.SalarysMapper;
 import com.oa.service.EmployeesService;
 import com.oa.utils.ResultEmp;
 import com.oa.utils.TimeUtils;
@@ -105,8 +107,8 @@ public class EmployeesServiceImpl implements EmployeesService {
 
         employees.setInTime(TimeUtils.getDate(inTime));
         // UUID uuid = UUID.randomUUID();
-        employees.seteAccount(IdUtil.simpleUUID());
-
+        employees.seteAccount(IdUtil.simpleUUID());//随机账号
+        employees.setContractNum(IdUtil.simpleUUID());//合同编号
         //System.out.println(employees);
         int i = employeesMapper.insertSelective(employees);
         return i;
@@ -350,4 +352,23 @@ public class EmployeesServiceImpl implements EmployeesService {
     }
 
 
+
+    /**
+     * 获取所有员工
+     * @author CHTW
+     * @return
+     */
+    @Override
+    public List<Employees> getAll() {
+        return employeesMapper.selectByExample(new EmployeesExample());
+    }
+
+    @Override
+    public Employees getEmpById(String eId) {
+        EmployeesExample employeesExample = new EmployeesExample();
+        EmployeesExample.Criteria criteria = employeesExample.createCriteria();
+        criteria.andEIdEqualTo(eId);
+        List<Employees> employeesList = employeesMapper.selectByExample(employeesExample);
+        return employeesList.get(0);
+    }
 }

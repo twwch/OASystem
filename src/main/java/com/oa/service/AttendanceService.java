@@ -23,4 +23,39 @@ public interface AttendanceService {
      * @return
      */
     List<Attendance> getAttendceListSuccess(Attendance attendance);
+
+    /**
+     * 获取某个月某员工打卡成功的列表
+     * @param eId
+     * @author CHTW
+     * @return
+     */
+    List<Attendance> getSuDay(String eId);
+    /**
+     * 获取某个月某员工迟到或早退的列表
+     * @param eId
+     * @author CHTW
+     * @return
+     */
+    List<Attendance> getFialDay(String eId);
+
+    /**
+     * 本月打卡成功
+     * @author CHTW
+     * @return
+     */
+    List<Attendance> getSuDAKAMonth();
+
+    /**
+     * 本月打卡迟到
+     * @author CHTW
+     * @return
+     */
+    List<Attendance> getCIDAODAKAMonth();
+    /**
+     * 本月打卡早退
+     * @author CHTW
+     * @return
+     */
+    List<Attendance> getZAODAKAMonth();
 }

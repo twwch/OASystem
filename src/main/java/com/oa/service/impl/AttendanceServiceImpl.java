@@ -7,10 +7,12 @@ import com.oa.bean.AttendanceExample;
 import com.oa.enumutil.AttendanceEnum;
 import com.oa.mapper.AttendanceMapper;
 import com.oa.service.AttendanceService;
+import com.oa.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,7 +54,100 @@ public class AttendanceServiceImpl implements AttendanceService {
         return info;
     }
 
+    /**
+     * 获取某个月某员工打卡成功的列表
+     * @param eId
+     * @author CHTW
+     * @return
+     */
+    @Override
+    public List<Attendance> getSuDay(String eId) {
+        AttendanceExample example = new AttendanceExample();
+        AttendanceExample.Criteria re = example.createCriteria();
+        re.andEIdEqualTo(eId);
+        //前一月的第一天
+        Date date1 = TimeUtils.getFirstDay();
+        //前一月的最后一天
+        Date date2 = TimeUtils.getLastDay();
+        re.andTakeTimeBetween(date1,date2);
+        //打卡成功
+        re.andTakeStateEqualTo(AttendanceEnum.DAKASUCCESS.getCode());
+        return attendanceMapper.selectByExample(example);
+    }
+    /**
+     * 获取某个月某员工迟到或早退的列表
+     * @param eId
+     * @author CHTW
+     * @return
+     */
+    @Override
+    public List<Attendance> getFialDay(String eId) {
+        AttendanceExample example = new AttendanceExample();
+        AttendanceExample.Criteria re = example.createCriteria();
+        re.andEIdEqualTo(eId);
+        //前一月的第一天
+        Date date1 = TimeUtils.getFirstDay();
+        //前一月的最后一天
+        Date date2 = TimeUtils.getLastDay();
+        re.andTakeTimeBetween(date1,date2);
+        //打卡成功
+        re.andTakeStateNotEqualTo(AttendanceEnum.DAKASUCCESS.getCode());
+        return attendanceMapper.selectByExample(example);
+    }
 
+
+    /**
+     * 本月打卡成功
+     * @author CHTW
+     * @return
+     */
+    @Override
+    public List<Attendance> getSuDAKAMonth(){
+        AttendanceExample example = new AttendanceExample();
+        AttendanceExample.Criteria re = example.createCriteria();
+        //前一月的第一天
+        Date date1 = TimeUtils.getBenFirstDay();
+        //前一月的最后一天
+        Date date2 = TimeUtils.getBenLastDay();
+        re.andTakeStateEqualTo(AttendanceEnum.DAKASUCCESS.getCode());
+        re.andTakeTimeBetween(date1,date2);
+        return attendanceMapper.selectByExample(example);
+    }
+
+    /**
+     * 本月打卡迟到
+     * @author CHTW
+     * @return
+     */
+    public List<Attendance> getCIDAODAKAMonth(){
+        AttendanceExample example = new AttendanceExample();
+        AttendanceExample.Criteria re = example.createCriteria();
+        //前一月的第一天
+        Date date1 = TimeUtils.getBenFirstDay();
+        //前一月的最后一天
+        Date date2 = TimeUtils.getBenLastDay();
+        re.andTakeStateEqualTo(AttendanceEnum.CHIDAO.getCode());
+        re.andTakeTimeBetween(date1,date2);
+        return attendanceMapper.selectByExample(example);
+    }
+
+    /**
+     * 本月打卡早退
+     * @author CHTW
+     * @return
+     */
+    @Override
+    public List<Attendance> getZAODAKAMonth(){
+        AttendanceExample example = new AttendanceExample();
+        AttendanceExample.Criteria re = example.createCriteria();
+        //前一月的第一天
+        Date date1 = TimeUtils.getBenFirstDay();
+        //前一月的最后一天
+        Date date2 = TimeUtils.getBenLastDay();
+        re.andTakeStateEqualTo(AttendanceEnum.ZAOTUI.getCode());
+        re.andTakeTimeBetween(date1,date2);
+        return attendanceMapper.selectByExample(example);
+    }
     /**
      * @Description: getAttendceListSuccess 员工端查询自己的考勤
      * @param: [attendance]
