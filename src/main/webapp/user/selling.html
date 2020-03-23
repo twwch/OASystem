@@ -9,6 +9,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
     <meta name="description" content="Bitter Mobile Template">
     <meta name="keywords" content="bootstrap, mobile template, cordova, phonegap, mobile, html, responsive" />
+    <script src="assets/js/lib/jquery-3.4.1.min.js"></script>
 </head>
 
 <body>
@@ -32,15 +33,15 @@
     <!-- App Capsule -->
     <div id="appCapsule">
 
-        <div class="appContent">
-            <div class="card border-primary mb-3" style="max-width: 20rem;">
-                <div class="card-header"> <button type="button" class="btn btn-success">销假</button></div>
+        <div class="appContent" id="listBack">
+
+            <div class="card border-primary mb-3" style="max-width: 20rem;" >
                 <div class="card-body">
-                    <h4 class="card-title">2020/02/29</h4>
-                    <p class="card-text">回家吃酒.</p>
+                    <h4 class="card-title">无待销假</h4>
                 </div>
 
-            </div>
+<!--            </div>-->
+
         </div>
 
 
@@ -48,7 +49,7 @@
         <!-- * Sidebar Menu -->
         <!-- ///////////// Js Files ////////////////////  -->
         <!-- Jquery -->
-        <script src="assets/js/lib/jquery-3.4.1.min.js"></script>
+
         <!-- Bootstrap-->
         <script src="assets/js/lib/popper.min.js"></script>
         <script src="assets/js/lib/bootstrap.min.js"></script>
@@ -56,6 +57,64 @@
         <script src="assets/js/plugins/owl.carousel.min.js"></script>
         <!-- Main Js File -->
         <script src="assets/js/app.js"></script>
+
+        <script type="text/javascript">
+            $(function () {
+                $.ajax({
+                    url: "/OASystem/leave/backLeave",
+                    dataType: "json",
+                    type: "get",
+                    success: function (data) {
+                        console.log(data)
+                        var str = ""
+                        $(data.data).each(function (index,item) {
+                            str +='<div class="card border-primary mb-3" style="max-width: 20rem;" >\n'+
+                                '<div class="card-header"> <button type="button" class="btn btn-success" onclick="xiaojia('+item.id+')" >销假</button></div>\n' +
+                                '                <div class="card-body">\n' +
+                                '                    <h4 class="card-title">'+item.start+"———"+item.end+'</h4>\n' +
+                                '                    <p class="card-text">'+item.leaveReason+'</p>\n' +
+                                '                </div>'+'</div>'
+                        })
+                        $('#listBack').html(str)
+
+                        if (data.data.length == 0){
+                            var c = '<div class="card border-primary mb-3" style="max-width: 20rem;" >\n' +
+                                '                <div class="card-body">\n' +
+                                '                    <h4 class="card-title">无待销假</h4>\n' +
+                                '                </div>\n' +
+                                '\n' +
+                                '            </div>'
+                            $('#listBack').html(c)
+                        }
+
+                    },
+                    error: function (err) {
+                        alert("服务器出错");
+                    }
+                });
+            })
+
+
+            function xiaojia(id) {
+                $.ajax({
+                    url: "/OASystem/leave/dealVaction",
+                    dataType: "json",
+                    data: {"id":id},
+                    type: "get",
+                    success: function (data) {
+                        if (data.code == 200){
+                            alert("销假成功")
+                        }else {
+                            alert("销假失败")
+                        }
+                        window.location.reload();
+                    },
+                    error: function (err) {
+                        alert("服务器出错");
+                    }
+                });
+            }
+        </script>
 
 
 </body>

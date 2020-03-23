@@ -168,4 +168,79 @@ public class LeaveSalesServiceImpl implements LeaveSalesService {
         PageInfo<LeaveSales> info = new PageInfo<LeaveSales>(leaveSales);
         return info;
     }
+
+
+    /**
+     * @Description: leaveCode 插入请假信息进入数据库
+     * @param: [leaveSales]
+     * @return: int   插入数量成功
+     * @auther: zqq
+     * @date: 20/3/23 8:13
+     */
+    @Override
+    public int leaveCode(LeaveSales leaveSales) {
+        return leaveSalesMapper.insert(leaveSales);
+    }
+
+    /**
+     * @Description: getLeaveList 获取某个员工的请假审批状态
+     * @param: [leaveSales]
+     * @return: java.util.List<com.oa.bean.LeaveSales>
+     * @auther: zqq
+     * @date: 20/3/23 9:50
+     */
+    @Override
+    public List<LeaveSales> getLeaveList(LeaveSales leaveSales) {
+        LeaveSalesExample leaveSalesExample = new LeaveSalesExample();
+        LeaveSalesExample.Criteria criteria = leaveSalesExample.createCriteria();
+        criteria.andEIdEqualTo(leaveSales.geteId());
+        List<LeaveSales> leaveSales1 = leaveSalesMapper.selectByExample(leaveSalesExample);
+        for (LeaveSales sales : leaveSales1) {
+            sales.setName(null);
+            sales.setStart(null);
+            sales.seteId(null);
+            sales.setLeaveReason(null);
+            sales.setSalesState(null);
+        }
+        return leaveSales1;
+    }
+
+    /**
+     * @Description: getNotBackSell 获取员工未销假的列表
+     * @param: [leaveSales]
+     * @return: java.util.List<com.oa.bean.LeaveSales>
+     * @auther: zqq
+     * @date: 20/3/23 11:23
+     */
+    @Override
+    public List<LeaveSales> getNotBackSell(LeaveSales leaveSales) {
+        LeaveSalesExample leaveSalesExample = new LeaveSalesExample();
+        LeaveSalesExample.Criteria criteria = leaveSalesExample.createCriteria();
+        criteria.andEIdEqualTo(leaveSales.geteId());
+        criteria.andSalesStateEqualTo(leaveSales.getSalesState());
+        criteria.andAudtiStateEqualTo(leaveSales.getAudtiState());
+        List<LeaveSales> leaveSales1 = leaveSalesMapper.selectByExample(leaveSalesExample);
+        for (LeaveSales sales : leaveSales1) {
+            sales.setName(null);
+        }
+        return leaveSales1;
+    }
+
+    /**
+     * @Description: dealNum  修改假期状态为销假
+     * @param: [leaveSales]
+     * @return: int
+     * @auther: zqq
+     * @date: 20/3/23 12:00
+     */
+    @Override
+    public int dealNum(LeaveSales leaveSales) {
+        LeaveSalesExample leaveSalesExample = new LeaveSalesExample();
+        LeaveSalesExample.Criteria criteria = leaveSalesExample.createCriteria();
+        criteria.andIdEqualTo(leaveSales.getId());
+        criteria.andEIdEqualTo(leaveSales.geteId());
+        List<LeaveSales> deal = leaveSalesMapper.selectByExample(leaveSalesExample);
+        deal.get(0).setSalesState(0);
+        return leaveSalesMapper.updateByPrimaryKey(deal.get(0));
+    }
 }

@@ -2,10 +2,7 @@ package com.oa.controller;
 
 import cn.hutool.crypto.SecureUtil;
 import com.github.pagehelper.PageInfo;
-import com.oa.bean.Attendance;
-import com.oa.bean.Employees;
-import com.oa.bean.PubIp;
-import com.oa.bean.Salarys;
+import com.oa.bean.*;
 import com.oa.enumutil.EmpEnum;
 import com.oa.enumutil.Result;
 import com.oa.service.EmployeesService;
@@ -323,4 +320,39 @@ public class EmployeesContrller {
         List<Salarys> salarysList = employeesService.salaryList(salarys);
         return new CommonResult<List<Salarys>>(Result.SUCCESS.getCode(),"获取成功",salarysList);
     }
+
+    /**
+     * @Description: workMoneyMesg   获取工资信息
+     * @param: [id:工资表唯一标识, session：session的工号]
+     * @return: com.oa.utils.CommonResult 包含工资信息的工具类
+     * @auther: zqq
+     * @date: 20/3/22 20:29
+     */
+    @RequestMapping("/workmoney")
+    public CommonResult workMoneyMesg(@RequestParam(required = true) String id,
+                                      HttpSession session){
+        Salarys salarys = new Salarys();
+        salarys.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
+        salarys.setId(Integer.parseInt(id));
+        Salarys wagesByEidAndId = employeesService.getWagesByEidAndId(salarys);
+        return new CommonResult<Salarys>(Result.SUCCESS.getCode(),"工资信息", wagesByEidAndId);
+    }
+
+    /**
+     * @Description: imessage  获取员工个人资料信息
+     * @param: [session]  获取工号
+     * @return: com.oa.utils.CommonResult 包含员工信息的工具类
+     * @auther: zqq
+     * @date: 20/3/22 20:41
+     */
+    @RequestMapping(value = "/imessage", method = RequestMethod.GET)
+    public CommonResult imessage(HttpSession session){
+        Employees employees= new Employees();
+        employees.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
+        Employees message = employeesService.getMessage(employees);
+        return new CommonResult<Employees>(Result.SUCCESS.getCode(),"员工信息获取成功", message);
+    }
+
+
+
 }

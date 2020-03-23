@@ -3,6 +3,8 @@ package com.oa.service;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.LeaveSales;
 
+import java.util.List;
+
 /**
  * @author CHTW
  * @date 2020/3/19 11:12
@@ -74,4 +76,33 @@ public interface LeaveSalesService {
      * @return
      */
     PageInfo<LeaveSales> getNotPass(int nowpage, int size, String eId, String name);
+
+    /**
+     * 员工请假插入数据库
+     * @param leaveSales
+     * @return 插入的条数
+     */
+    int leaveCode(LeaveSales leaveSales);
+
+
+    /**
+     * 获取请假信息
+     * @param leaveSales
+     * @return
+     */
+    List<LeaveSales> getLeaveList(LeaveSales leaveSales);
+
+    /**
+     * 获取未销假的列表
+     * @param leaveSales
+     * @return
+     */
+    List<LeaveSales> getNotBackSell(LeaveSales leaveSales);
+
+    /**
+     * 销假
+     * @param leaveSales
+     * @return
+     */
+    int dealNum(LeaveSales leaveSales);
 }

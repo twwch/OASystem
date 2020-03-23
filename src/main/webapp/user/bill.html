@@ -50,39 +50,43 @@
                             <tbody>
                                 <tr class="table-active">
                                     <th scope="row">工号：</th>
-                                    <td>xxxxx</td>
+                                    <td id="eid">xxxxx</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">流水号：</th>
-                                    <td>xxxxxxxx</td>
+                                    <td id="serialNum">xxxxxxxx</td>
                                 </tr>
                                 <tr class="table-active">
                                     <th scope="row">基础工资：</th>
-                                    <td>xxxxx元</td>
+                                    <td id="basicWage">xxxxx元</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">提成：</th>
-                                    <td>xxxx元</td>
+                                    <td id="royalty">xxxx元</td>
                                 </tr>
                                 <tr class="table-active">
                                     <th scope="row">上班天数</th>
-                                    <td>28天</td>
+                                    <td id="workDays">28天</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">早退/迟到次数</th>
-                                    <td>x次</td>
+                                    <td id="leaveEarlyDays">x次</td>
                                 </tr>
                                 <tr class="table-active">
                                     <th scope="row">工资发放日期</th>
-                                    <td>2020年1月2日</td>
+                                    <td id="issueTime">2020年1月2日</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">转账账号</th>
-                                    <td>xxxxxxxxxx</td>
+                                    <td id="accountOther">xxxxxxxxxx</td>
                                 </tr>
                                 <tr class="table-active">
+                                    <th scope="row">月份</th>
+                                    <td id="month">xxxxx元</td>
+                                </tr>
+                                <tr class="table">
                                     <th scope="row">到账薪水</th>
-                                    <td>xxxxx元</td>
+                                    <td id="salary">xxxxx元</td>
                                 </tr>
 
                             </tbody>
@@ -107,6 +111,42 @@
     <script src="assets/js/plugins/owl.carousel.min.js"></script>
     <!-- Main Js File -->
     <script src="assets/js/app.js"></script>
+
+
+    <script type="text/javascript">
+
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+
+
+        $(function () {
+            $.ajax({
+                url: "/OASystem/empinfo/workmoney",
+                dataType: "json",
+                data: {"id":getUrlParam("id")},
+                type: "post",
+                success: function (data) {
+                    console.log(data)
+                    $("#eid").text(data.data.eId);
+                    $("#serialNum").text(data.data.serialNum);
+                    $("#basicWage").text(data.data.basicWage+'元');
+                    $("#royalty").text(data.data.royalty+'元');
+                    $("#workDays").text(data.data.workDays+'天');
+                    $("#leaveEarlyDays").text(data.data.leaveEarlyDays+'次');
+                    $("#issueTime").text(data.data.issueTime);
+                    $("#accountOther").text(data.data.accountOther);
+                    $("#month").text(data.data.month);
+                    $("#salary").text(data.data.salary+'元');
+                },
+                error: function (err) {
+                    alert("服务器出错");
+                }
+            })
+        })
+    </script>
 
 
 </body>

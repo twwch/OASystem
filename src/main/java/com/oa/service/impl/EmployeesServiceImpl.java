@@ -4,11 +4,9 @@ import cn.hutool.core.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.*;
-import com.oa.mapper.AttendanceMapper;
+import com.oa.mapper.*;
 import com.oa.enumutil.EmpEnum;
 import com.oa.mapper.AttendanceMapper;
-import com.oa.mapper.EmployeesMapper;
-import com.oa.mapper.SalarysMapper;
 import com.oa.service.EmployeesService;
 import com.oa.utils.ResultEmp;
 import com.oa.utils.TimeUtils;
@@ -39,6 +37,9 @@ public class EmployeesServiceImpl implements EmployeesService {
 
     @Autowired
     private SalarysMapper salarysMapper;
+
+
+
     /**
      * 获取员工数量
      *
@@ -302,11 +303,6 @@ public class EmployeesServiceImpl implements EmployeesService {
         SalarysExample.Criteria criteria = salarysExample.createCriteria();
         criteria.andEIdEqualTo(salarys.geteId());
         List<Salarys> salarys1 = salarysMapper.selectByExample(salarysExample);
-
-        System.out.println(salarys1.toString());
-        System.out.println(salarys1.size());
-
-
         for (Salarys s : salarys1) {
             s.setSerialNum(null);
             s.setBasicWage(null);
@@ -319,4 +315,39 @@ public class EmployeesServiceImpl implements EmployeesService {
         }
         return salarys1;
     }
+
+    /**
+     * @Description: getWagesByEidAndId 获取某用户的某个月工资
+     * @param: [salarys] 工资信息
+     * @return: com.oa.bean.Salarys   一个工资类
+     * @auther: zqq
+     * @date: 20/3/22 18:36
+     */
+    @Override
+    public Salarys getWagesByEidAndId(Salarys salarys) {
+        SalarysExample salarysExample = new SalarysExample();
+        SalarysExample.Criteria criteria = salarysExample.createCriteria();
+        criteria.andEIdEqualTo(salarys.geteId());
+        criteria.andIdEqualTo(salarys.getId());
+        List<Salarys> salarys1 = salarysMapper.selectByExample(salarysExample);
+        return salarys1.get(0);
+    }
+
+    /**
+     * @Description: getMessage 获取员工信息
+     * @param: [employees]  只包含工号的Employee类
+     * @return: com.oa.bean.Employees 返回一个包含员工信息的类
+     * @auther: zqq
+     * @date: 20/3/22 20:28
+     */
+    @Override
+    public Employees getMessage(Employees employees) {
+        EmployeesExample employeesExample = new EmployeesExample();
+        EmployeesExample.Criteria criteria = employeesExample.createCriteria();
+        criteria.andEIdEqualTo(employees.geteId());
+        List<Employees> employeesList = employeesMapper.selectByExample(employeesExample);
+        return employeesList.get(0);
+    }
+
+
 }

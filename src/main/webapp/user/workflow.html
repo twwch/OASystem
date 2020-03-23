@@ -9,6 +9,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
     <meta name="description" content="Bitter Mobile Template">
     <meta name="keywords" content="bootstrap, mobile template, cordova, phonegap, mobile, html, responsive" />
+    <script src="assets/js/lib/jquery-3.4.1.min.js"></script>
 </head>
 
 <body>
@@ -40,9 +41,6 @@
         <div class="appContent">
 
             <div class="splashBlock">
-                <div class="splashIcon text-primary mt-3 mb-3">
-                    <i class="icon ion-ios-wallet"></i>
-                </div>
 
                 <div class="sectionTitle text-center">
                     <table class="table table-hover">
@@ -72,10 +70,53 @@
     </div>
     <!-- appCapsule -->
 
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajax({
+                url: "/OASystem/leave/levaeCheck",
+                dataType: "json",
+                type: "get",
+                success: function (data) {
+                   console.log(data)
+                    var str = "";
+                    $(data.data).each(function (index, item) {
+
+                            str += '<tr class="table'+active(index)+'">\n' +
+                                '<th scope="row">'+item.leaveTime+'</th>\n' +
+                                '<td>'+state(item.audtiState,item.failMessage)+'</td>\n' +
+                                '</tr>'
+
+                    })
+                    $("tbody").html(str)
+
+                },
+                error: function (err) {
+                    alert("服务器出错");
+                }
+            });
+        })
+
+        function active(index) {
+            return index % 2 != 0 ? "":"-active";
+        }
+
+        function state(stateNum, failMessage) {
+            if (stateNum == 0){
+                return "未审核";
+            }else if(stateNum ==1){
+                return "审核通过";
+            }else {
+                return "审核未通过:"+failMessage;
+            }
+        }
+
+    </script>
+
 
     <!-- ///////////// Js Files ////////////////////  -->
     <!-- Jquery -->
-    <script src="assets/js/lib/jquery-3.4.1.min.js"></script>
+
     <!-- Bootstrap-->
     <script src="assets/js/lib/popper.min.js"></script>
     <script src="assets/js/lib/bootstrap.min.js"></script>
@@ -83,6 +124,8 @@
     <script src="assets/js/plugins/owl.carousel.min.js"></script>
     <!-- Main Js File -->
     <script src="assets/js/app.js"></script>
+
+
 
 
 </body>

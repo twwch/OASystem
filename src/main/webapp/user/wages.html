@@ -38,43 +38,26 @@
                 <div class="contentBox-body">
 
                     <!-- listview -->
-                    <div class="listView border-success">
-                        <a href="bill.html" class="listItem">
-                            <div class="image">
-                                <div class="iconBox bg-success">
-                                    <i class="icon ion-ios-browsers"></i>
-                                </div>
-                            </div>
-                            <div class="text">
-                                <div>
-                                    <strong>2019年12月</strong><strong>5000.0元</strong>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="bill.html" class="listItem">
-                            <div class="image">
-                                <div class="iconBox bg-success">
-                                    <i class="icon ion-ios-browsers"></i>
-                                </div>
-                            </div>
-                            <div class="text">
-                                <div>
-                                    <strong>2019年12月</strong><strong>5000.0元</strong>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="bill.html" class="listItem">
-                            <div class="image">
-                                <div class="iconBox bg-success">
-                                    <i class="icon ion-ios-browsers"></i>
-                                </div>
-                            </div>
-                            <div class="text">
-                                <div>
-                                    <strong>2019年12月</strong><strong>5000.0元</strong>
-                                </div>
-                            </div>
-                        </a>
+                    <div class="listView border-success" id="moneyList">
+
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>提示：</strong>  暂无工资信息！！！
+                        </div>
+
+<!--                        <a href="bill.html" class="listItem">-->
+<!--                            <div class="image">-->
+<!--                                <div class="iconBox bg-success">-->
+<!--                                    <i class="icon ion-ios-browsers"></i>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="text">-->
+<!--                                <div>-->
+<!--                                    <strong>2019年12月</strong><strong>5000.0元</strong>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+
                     </div>
 
                     <!-- * listview -->
@@ -126,14 +109,28 @@
                 dataType: "json",
                 type: "post",
                 success: function (data) {
-                    console.log("返回数据")
-                    console.log(data)
+                    var str = "";
+                    $(data.data).each(function (index,item) {
+                        str += '<a href="bill.html?id='+item.id+'" class="listItem">'+'<div class="image">\n' +
+                            '            <div class="iconBox bg-success">\n' +
+                            '            <i class="icon ion-ios-browsers"></i>\n' +
+                            '            </div>\n' +
+                            '            </div>\n' +
+                            '            <div class="text">\n' +
+                            '            <div>'+'<strong>'+item.month+'</strong><strong>'+item.salary+'元</strong>'+'</div>\n' +
+                            '        </div>\n' +
+                            '        </a>'
+                    })
+
+                    $("#moneyList").html(str);
+
                 },
                 error: function (err) {
                     alert("服务器出错");
                 }
             })
         })
+
 
     </script>
 

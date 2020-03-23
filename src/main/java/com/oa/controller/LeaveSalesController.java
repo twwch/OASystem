@@ -1,8 +1,11 @@
 package com.oa.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.oa.bean.Employees;
 import com.oa.bean.LeaveSales;
 import com.oa.enumutil.Result;
+import com.oa.service.EmployeesService;
+import com.oa.service.impl.EmployeesServiceImpl;
 import com.oa.service.impl.LeaveSalesServiceImpl;
 import com.oa.utils.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +30,8 @@ public class LeaveSalesController {
 
     @Autowired
     private LeaveSalesServiceImpl leaveSalesService;
+
+    private EmployeesServiceImpl employeesService;
 
     /**
      * 获取已请假的员工（未销假并且审核通过）
@@ -151,5 +158,78 @@ public class LeaveSalesController {
             return maps;
         }
         return null;
+    }
+
+
+    /**
+     * @Description: leave  员工请求处理
+     * @param: [leaveSales]
+     * @return: com.oa.utils.CommonResult 返回请假请求是否已经入库
+     * @auther: zqq
+     * @date: 20/3/23 7:54
+     */
+    @RequestMapping(value = "/leave")
+    public CommonResult leave(LeaveSales leaveSales, HttpSession session){
+        leaveSales.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
+        Employees message = employeesService.getMessage((Employees) session.getAttribute(EmployeesService.SESSION_EID));
+        leaveSales.setName(message.getName());
+        //初始为未审核
+        leaveSales.setAudtiState(0);
+        //初始化为未销假
+        leaveSales.setSalesState(1);
+        int i = leaveSalesService.leaveCode(leaveSales);
+        return i == 1 ? new CommonResult(Result.SUCCESS.getCode(),"发送成功") : new CommonResult(Result.FAIL.getCode(),
+                "发送失败");
+    }
+
+    /**
+     * @Description: leaveCheck  查询某员工的请假状态
+     * @param: [session]
+     * @return: com.oa.utils.CommonResult
+     * @auther: zqq
+     * @date: 20/3/23 11:11
+     */
+    @RequestMapping(value = "/levaeCheck", method = RequestMethod.GET)
+    public CommonResult leaveCheck(HttpSession session){
+        LeaveSales leaveSales = new LeaveSales();
+        leaveSales.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
+        List<LeaveSales> leaveList = leaveSalesService.getLeaveList(leaveSales);
+        return new CommonResult<List<LeaveSales>>(Result.SUCCESS.getCode(), "获取成功", leaveList);
+    }
+
+    /**
+     * @Description: backLeave  员工待销假列表查询
+     * @param: [session]
+     * @return: com.oa.utils.CommonResult
+     * @auther: zqq
+     * @date: 20/3/23 11:14
+     */
+    @RequestMapping("/backLeave")
+    public CommonResult backLeave(HttpSession session){
+        LeaveSales sales = new LeaveSales();
+        sales.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
+        // 1表示未销假
+        sales.setSalesState(1);
+        // 1表示审核通过
+        sales.setAudtiState(1);
+        List<LeaveSales> notBackSell = leaveSalesService.getNotBackSell(sales);
+        return new CommonResult<List<LeaveSales>>(Result.SUCCESS.getCode(),"获取成功", notBackSell);
+    }
+
+    /**
+     * @Description: dealVaction 处理销假请求
+     * @param: [id, session]
+     * @return: com.oa.utils.CommonResult
+     * @auther: zqq
+     * @date: 20/3/23 11:47
+     */
+    @RequestMapping("/dealVaction")
+    public CommonResult dealVaction(int id,HttpSession session){
+        LeaveSales leaveSales = new LeaveSales();
+        leaveSales.setId(id);
+        leaveSales.seteId((String) session.getAttribute(EmployeesService.SESSION_EID));
+        int i = leaveSalesService.dealNum(leaveSales);
+        return i == 1 ? new CommonResult(Result.SUCCESS.getCode(),"修改成功"):new CommonResult(Result.FAIL.getCode(),
+                "修改失败");
     }
 }

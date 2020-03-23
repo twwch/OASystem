@@ -3,6 +3,7 @@ package com.oa.service;
 import com.github.pagehelper.PageInfo;
 import com.oa.bean.Attendance;
 import com.oa.bean.Employees;
+import com.oa.bean.LeaveSales;
 import com.oa.bean.Salarys;
 import com.oa.utils.ResultEmp;
 
@@ -67,4 +68,24 @@ public interface EmployeesService {
      * @return
      */
     List<Salarys> salaryList(Salarys salarys);
+
+    /**
+     * 根据id和eid（员工工号）获取某一个月的详细工资
+     * @param salarys
+     * @return
+     */
+    Salarys getWagesByEidAndId(Salarys salarys);
+    
+    /**
+     * @Description: 根据工号获取员工信息
+     * @param: 
+     * @return: 
+     * @auther: zqq
+     * @date: 20/3/22 20:25
+     */
+    Employees getMessage(Employees employees);
+
+
+
+
 }

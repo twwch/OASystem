@@ -53,4 +53,19 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
 
+    /**
+     * @Description: getAttendceListSuccess 员工端查询自己的考勤
+     * @param: [attendance]
+     * @return: java.util.List<com.oa.bean.Attendance>
+     * @auther: zqq
+     * @date: 20/3/23 14:17
+     */
+    @Override
+    public List<Attendance> getAttendceListSuccess(Attendance attendance) {
+        AttendanceExample   attendanceExample = new AttendanceExample();
+        AttendanceExample.Criteria criteria = attendanceExample.createCriteria();
+        criteria.andEIdEqualTo(attendance.geteId());
+        List<Attendance> attendances = attendanceMapper.selectByExample(attendanceExample);
+        return attendances;
+    }
 }

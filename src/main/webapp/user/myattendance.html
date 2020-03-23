@@ -10,58 +10,125 @@
     <meta name="description" content="Bitter Mobile Template">
     <meta name="keywords" content="bootstrap, mobile template, cordova, phonegap, mobile, html, responsive" />
 
-    <!--日历Css样式-->
-    <link rel="stylesheet" type="text/css" href="./assets/css/Calendar.css" />
+
     <!--jquery引用-->
     <!-- <script src="./assets/js/jquery.min.js"></script> -->
     <script src="assets/js/lib/jquery-3.4.1.min.js"></script>
-    <!--日历js-->
-    <script src="./assets/js/calendar.js"></script>
+
 </head>
 
 <body>
 
-    <!-- Page loading -->
-    <div class="loading">
-        <div class="spinner-grow"></div>
+<!-- Page loading -->
+<div class="loading">
+    <div class="spinner-grow"></div>
+</div>
+<!-- * Page loading -->
+
+<!-- App Header -->
+<div class="appHeader">
+    <div class="left">
+        <a href="#" class="icon goBack">
+            <i class="icon ion-ios-arrow-back"></i>
+        </a>
     </div>
-    <!-- * Page loading -->
-
-    <!-- App Header -->
-    <div class="appHeader">
-        <div class="left">
-            <a href="#" class="icon goBack">
-                <i class="icon ion-ios-arrow-back"></i>
-            </a>
-        </div>
-        <div class="pageTitle">考勤记录</div>
+    <div class="pageTitle">
+        我都考勤
     </div>
-    <!-- * App Header -->
+    <div class="right">
+    </div>
+</div>
+<!-- * App Header -->
 
-    <!-- App Capsule -->
-    <div id="appCapsule">
+<!-- App Capsule -->
+<div id="appCapsule">
 
-        <div class="appContent">
+    <div class="appContent">
+
+        <div class="splashBlock">
+
+            <div class="sectionTitle text-center">
+                <table class="table table-hover">
+                    <thead>
+                    <tbody>
+                    <tr class="table-active">
+                        <th scope="row">2020/3/15-14:00 </th>
+                        <td>上班打卡</td>
+                    </tr>
+                    <tr class="table">
+                        <th scope="row">2020/3/15-14:00 </th>
+                        <td>下班打卡</td>
+                    </tr>
 
 
-            <!-- post list -->
-            <div class="row mt-2">
-
-                <div class="mui-content">
-                    <div class="duty-list">
-                        <div id="calendar"></div>
-                    </div>
-                </div>
-
+                    </tbody>
+                </table>
             </div>
-            <!-- * post list -->
-
 
         </div>
 
+    </div>
+
+</div>
+<!-- appCapsule -->
+        <script type="text/javascript">
 
 
-        <!-- ///////////// Js Files ////////////////////  -->
+            function time(time) {
+                var date = new Date(time);
+                Y = date.getFullYear() + '-';
+                M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                D = date.getDate() + ' ';
+                h = date.getHours() + ':';
+                m = date.getMinutes() + ':';
+                s = date.getSeconds();
+                return Y+M+D+h+m+s
+            }
+
+            function time2(time) {
+                var date = new Date(time);
+                var h = date.getHours();
+                if (h<12){
+                    return "上班打卡";
+                }else {
+                    return "下班打卡";
+                }
+            }
+
+            function active(index) {
+                return index % 2 != 0 ? "":"-active";
+            }
+
+            $(function () {
+
+
+
+                $.ajax({
+                    url: "/OASystem/Attendance/myattendance",
+                    dataType: "json",
+                    type: "get",
+                    success: function (data) {
+                        console.log(data)
+                        var str = "";
+                        $(data.data).each(function (index, item) {
+                            str += '<tr class="table'+active(index)+'">\n' +
+                                '                        <th scope="row">'+time(item.takeTime)+'</th>\n' +
+                                '                        <td>'+time2(item.takeTime)+'</td>\n' +
+                                '                    </tr>'
+
+                        });
+                        $('tbody').html(str)
+                    },
+                    error: function (err) {
+                        alert("服务器出错");
+                    }
+                });
+            })
+        </script>
+
+
+
+<!-- ///////////// Js Files ////////////////////  -->
         <!-- Jquery -->
         <!-- <script src="assets/js/lib/jquery-3.4.1.min.js"></script> -->
         <!-- Bootstrap-->
